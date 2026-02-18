@@ -1,18 +1,17 @@
-import Link from "next/link";
-
 export default function Home() {
   return (
-    <main style={{ padding: "40px", fontFamily: "sans-serif" }}>
-      <h1>Welcome to Ignite</h1>
+    <main style={{ padding: "40px", fontFamily: "Arial" }}>
+      <h1>Welkom bij Ignity</h1>
+      <p>Het platform waar jouw ideeën tot leven komen.</p>
 
       <div style={{ marginTop: "20px" }}>
-        <Link href="/login">
-          <button style={{ marginRight: "10px" }}>Login</button>
-        </Link>
+        <button style={{ marginRight: "10px", padding: "8px 16px" }}>
+          Inloggen
+        </button>
 
-        <Link href="/signup">
-          <button>Sign Up</button>
-        </Link>
+        <button style={{ padding: "8px 16px" }}>
+          Registreren
+        </button>
       </div>
     </main>
   );
