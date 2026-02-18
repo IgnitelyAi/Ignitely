@@ -1,11 +1,24 @@
-export const dynamic = "force-dynamic";
+"use client";
 
-import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
-export default async function Home() {
-  const { data, error } = await supabase
-    .from("test")
-    .select("*");
+export default function Home() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    const fetchData = async () => {
+      const { data } = await supabase.from("test").select("*");
+      setData(data);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
