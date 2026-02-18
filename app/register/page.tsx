@@ -1,20 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 
-export default function RegisterPage() {
-  console.log("SUPABASE URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
-  console.log("SUPABASE KEY:", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
+console.log("ENV URL:", supabaseUrl);
+console.log("ENV KEY:", supabaseKey);
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [voornaam, setVoornaam] = useState("");
   const [achternaam, setAchternaam] = useState("");
 
   const handleRegister = async () => {
-    if (!supabase) {
-      alert("Supabase is niet correct ingesteld.");
+    console.log("Register clicked");
+
+    if (!supabaseUrl || !supabaseKey) {
+      alert("Supabase ENV variables ontbreken");
+      console.log("ENV missing");
       return;
     }
 
@@ -23,28 +31,53 @@ export default function RegisterPage() {
       password,
     });
 
+    console.log("Signup result:", data, error);
+
     if (error) {
       alert(error.message);
       return;
     }
 
     if (data.user) {
-      await supabase.from("profiles").insert({
-        id: data.user.id,
-        email,
-        voornaam,
-        achternaam,
-        plan: "free",
-        credits: 15,
-      });
+      const { error: profileError } = await supabase.from("profiles").insert([
+        {
+          id: data.user.id,
+          email,
+          voornaam,
+          achternaam,
+          plan: "free",
+          credits: 15,
+        },
+      ]);
 
-      alert("Account aangemaakt! Check je e-mail voor verificatie.");
+      console.log("Profile insert:", profileError);
+
+      if (profileError) {
+        alert(profileError.message);
+      } else {
+        alert("Account aangemaakt! Check je e-mail.");
+      }
     }
   };
 
   return (
-    <div style={{ padding: "40px", color: "white" }}>
+    <div style={{ padding: 40 }}>
       <h1>Registreren</h1>
+
+      <input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br /><br />
+
+      <input
+        placeholder="Wachtwoord"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <br /><br />
 
       <input
         placeholder="Voornaam"
@@ -57,21 +90,6 @@ export default function RegisterPage() {
         placeholder="Achternaam"
         value={achternaam}
         onChange={(e) => setAchternaam(e.target.value)}
-      />
-      <br /><br />
-
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <br /><br />
-
-      <input
-        type="password"
-        placeholder="Wachtwoord"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
       />
       <br /><br />
 
