@@ -1,24 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "@/lib/supabase";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const supabase = getSupabaseClient();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [voornaam, setVoornaam] = useState("");
   const [achternaam, setAchternaam] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
-    console.log("Register clicked");
+    if (!supabase) {
+      console.log("Supabase not loaded");
+      return;
+    }
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -26,59 +26,63 @@ export default function RegisterPage() {
     });
 
     if (error) {
-      console.log("Error:", error.message);
       alert(error.message);
-      setLoading(false);
       return;
     }
 
-    console.log("User created:", data);
+    if (data.user) {
+      await supabase.from("profiles").insert([
+        {
+          id: data.user.id,
+          email,
+          voornaam,
+          achternaam,
+          plan: "free",
+        },
+      ]);
 
-    alert("Account succesvol aangemaakt!");
-    router.push("/login");
+      router.push("/");
+    }
   };
 
   return (
     <div style={{ padding: "40px" }}>
       <h1>Registreren</h1>
 
-      <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: "15px", maxWidth: "400px" }}>
-        
+      <form onSubmit={handleRegister}>
         <input
           type="text"
           placeholder="Voornaam"
           value={voornaam}
           onChange={(e) => setVoornaam(e.target.value)}
-          required
         />
+        <br />
 
         <input
           type="text"
           placeholder="Achternaam"
           value={achternaam}
           onChange={(e) => setAchternaam(e.target.value)}
-          required
         />
+        <br />
 
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
+        <br />
 
         <input
           type="password"
           placeholder="Wachtwoord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
+        <br />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Bezig..." : "Registreren"}
-        </button>
+        <button type="submit">Account aanmaken</button>
       </form>
     </div>
   );

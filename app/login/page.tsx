@@ -1,20 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "@/lib/supabase";
 
 export default function LoginPage() {
   const router = useRouter();
-  const supabase = getSupabaseClient();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+
+    if (!supabase) {
+      console.log("Supabase not loaded");
+      return;
+    }
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -23,39 +24,30 @@ export default function LoginPage() {
 
     if (error) {
       alert(error.message);
-      setLoading(false);
-      return;
+    } else {
+      router.push("/");
     }
-
-    alert("Succesvol ingelogd!");
-    router.push("/");
   };
 
   return (
     <div style={{ padding: "40px" }}>
-      <h1>Inloggen</h1>
-
-      <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "15px", maxWidth: "400px" }}>
-        
+      <h1>Login</h1>
+      <form onSubmit={handleLogin}>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
-
+        <br />
         <input
           type="password"
-          placeholder="Wachtwoord"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
         />
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Bezig..." : "Inloggen"}
-        </button>
+        <br />
+        <button type="submit">Login</button>
       </form>
     </div>
   );
