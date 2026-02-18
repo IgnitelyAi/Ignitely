@@ -1,12 +1,12 @@
 export default function Home() {
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Welkom bij Ignitely 🚀</h1>
-      <p>Lanceer jouw ideeën naar de toekomst</p>
+    <div className="hero">
+      <h1 className="title">Welkom bij Ignitely 🚀</h1>
+      <p className="subtitle">Lanceer jouw ideeën naar de toekomst</p>
 
-      <div style={{ marginTop: "20px" }}>
-        <button>Inloggen</button>
-        <button style={{ marginLeft: "10px" }}>Registreren</button>
+      <div className="buttons">
+        <button className="btn-primary">Inloggen</button>
+        <button className="btn-secondary">Registreren</button>
       </div>
     </div>
   );

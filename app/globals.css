@@ -1,29 +1,62 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.hero {
+  text-align: center;
+  margin-top: -150px; /* 🔥 iets omhoog */
 }
 
-html, body {
-  height: 100%;
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  text-shadow: 
+    0 0 10px #3b82f6,
+    0 0 20px #2563eb,
+    0 0 40px #1d4ed8;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh;
-  color: white;
+.subtitle {
+  margin-top: 15px;
+  font-size: 20px;
+  color: #cbd5e1;
+  text-shadow: 0 0 10px rgba(59,130,246,0.6);
+}
 
-  /* 🔥 LOGO ALS ACHTERGROND */
-  background: 
-    linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.85)),
-    url('/logo.jpg');
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-
+.buttons {
+  margin-top: 30px;
   display: flex;
-  align-items: center;
+  gap: 20px;
   justify-content: center;
+}
+
+/* 🔥 PRIMAIRE KNOP */
+.btn-primary {
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 20px rgba(59,130,246,0.6);
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(59,130,246,0.9);
+}
+
+/* 🔥 SECUNDAIRE KNOP */
+.btn-secondary {
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: 2px solid #3b82f6;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  background: rgba(59,130,246,0.1);
+  transform: scale(1.05);
 }
