@@ -1,18 +1,27 @@
 export default function Home() {
   return (
-    <main style={{ padding: "40px", fontFamily: "Arial" }}>
-      <h1>Welkom bij Ignity</h1>
-      <p>Het platform waar jouw ideeën tot leven komen.</p>
+    <main style={{ 
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100vh",
+      gap: "20px"
+    }}>
+      
+      <img 
+        src="/logo.jpg" 
+        alt="Ignitely Logo" 
+        style={{ width: "250px" }}
+      />
 
-      <div style={{ marginTop: "20px" }}>
-        <button style={{ marginRight: "10px", padding: "8px 16px" }}>
-          Inloggen
-        </button>
+      <h1>Welkom bij Ignitely</h1>
 
-        <button style={{ padding: "8px 16px" }}>
-          Registreren
-        </button>
+      <div style={{ display: "flex", gap: "10px" }}>
+        <button>Inloggen</button>
+        <button>Registreren</button>
       </div>
+
     </main>
   );
 }
