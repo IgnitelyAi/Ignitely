@@ -1,27 +1,15 @@
 export default function Home() {
   return (
-    <main style={{ 
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100vh",
-      gap: "20px"
-    }}>
-      
-      <img 
-        src="/logo.jpg" 
-        alt="Ignitely Logo" 
-        style={{ width: "250px" }}
-      />
+    <main className="hero">
+      <div className="overlay">
+        <h1 className="title">Welkom bij Ignitely</h1>
+        <p className="subtitle">Launch your ideas into the future 🚀</p>
 
-      <h1>Welkom bij Ignitely</h1>
-
-      <div style={{ display: "flex", gap: "10px" }}>
-        <button>Inloggen</button>
-        <button>Registreren</button>
+        <div className="buttons">
+          <button className="btn primary">Inloggen</button>
+          <button className="btn secondary">Registreren</button>
+        </div>
       </div>
-
     </main>
   );
 }
