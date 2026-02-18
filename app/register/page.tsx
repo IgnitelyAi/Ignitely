@@ -1,125 +1,46 @@
 "use client";
 
-import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
-export default function Register() {
+export default function Home() {
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [voornaam, setVoornaam] = useState("");
-  const [achternaam, setAchternaam] = useState("");
-  const [geboortedatum, setGeboortedatum] = useState("");
-  const [adres, setAdres] = useState("");
-  const [postcode, setPostcode] = useState("");
-  const [plaats, setPlaats] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleRegister = async () => {
-    if (!supabase) {
-      alert("Supabase niet correct ingesteld.");
-      return;
-    }
-
-    setLoading(true);
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      alert(error.message);
-      setLoading(false);
-      return;
-    }
-
-    if (data.user) {
-      await supabase.from("profiles").insert([
-        {
-          id: data.user.id,
-          email,
-          voornaam,
-          achternaam,
-          geboortedatum,
-          adres,
-          postcode,
-          plaats,
-          plan: "free",
-          credits: 15,
-        },
-      ]);
-
-      alert("Account aangemaakt! Check je e-mail om te bevestigen.");
-      router.push("/login");
-    }
-
-    setLoading(false);
-  };
-
   return (
-    <div style={{ padding: "40px", maxWidth: "400px", margin: "0 auto" }}>
-      <h1>Registreren</h1>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h1>Lanceer jouw ideeën naar de toekomst</h1>
 
-      <input
-        placeholder="Voornaam"
-        value={voornaam}
-        onChange={(e) => setVoornaam(e.target.value)}
-      />
+      <div style={{ marginTop: "40px" }}>
+        <button
+          onClick={() => router.push("/login")}
+          style={{
+            padding: "14px 35px",
+            marginRight: "20px",
+            borderRadius: "30px",
+            border: "none",
+            background: "linear-gradient(90deg,#2563eb,#3b82f6)",
+            color: "white",
+            fontSize: "16px",
+            cursor: "pointer",
+          }}
+        >
+          Inloggen
+        </button>
 
-      <input
-        placeholder="Achternaam"
-        value={achternaam}
-        onChange={(e) => setAchternaam(e.target.value)}
-      />
-
-      <input
-        type="date"
-        value={geboortedatum}
-        onChange={(e) => setGeboortedatum(e.target.value)}
-      />
-
-      <input
-        placeholder="Adres"
-        value={adres}
-        onChange={(e) => setAdres(e.target.value)}
-      />
-
-      <input
-        placeholder="Postcode"
-        value={postcode}
-        onChange={(e) => setPostcode(e.target.value)}
-      />
-
-      <input
-        placeholder="Plaats"
-        value={plaats}
-        onChange={(e) => setPlaats(e.target.value)}
-      />
-
-      <input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <input
-        type="password"
-        placeholder="Wachtwoord"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <button
-        onClick={handleRegister}
-        disabled={loading}
-        style={{ marginTop: "20px" }}
-      >
-        {loading ? "Bezig..." : "Account aanmaken"}
-      </button>
+        <button
+          onClick={() => router.push("/register")}
+          style={{
+            padding: "14px 35px",
+            borderRadius: "30px",
+            border: "2px solid #3b82f6",
+            background: "transparent",
+            color: "white",
+            fontSize: "16px",
+            cursor: "pointer",
+          }}
+        >
+          Registreren
+        </button>
+      </div>
     </div>
   );
 }
