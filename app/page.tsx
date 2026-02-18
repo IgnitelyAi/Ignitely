@@ -5,20 +5,15 @@ export default async function Home() {
     .from("test")
     .select("*");
 
+  if (error) {
+    console.error(error);
+    return <div>Error loading data</div>;
+  }
+
   return (
-    <main style={{ padding: "40px", fontFamily: "sans-serif" }}>
-      <h1>Supabase connectie test</h1>
-
-      {error && (
-        <p style={{ color: "red" }}>
-          Error: {error.message}
-        </p>
-      )}
-
-      <pre>
-        {JSON.stringify(data, null, 2)}
-      </pre>
-    </main>
+    <div>
+      <h1>Data:</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
   );
 }
-
