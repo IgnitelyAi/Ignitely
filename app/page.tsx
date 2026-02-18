@@ -1,13 +1,13 @@
 export default function Home() {
   return (
-    <main className="hero">
+    <main className="home">
       <div className="overlay">
-        <h1 className="title">Welkom bij Ignitely</h1>
-        <p className="subtitle">Launch your ideas into the future 🚀</p>
+        <h1>Welkom bij Ignitely</h1>
+        <p>Lanceer jouw ideeën naar de toekomst 🚀</p>
 
         <div className="buttons">
-          <button className="btn primary">Inloggen</button>
-          <button className="btn secondary">Registreren</button>
+          <button>Inloggen</button>
+          <button>Registreren</button>
         </div>
       </div>
     </main>
