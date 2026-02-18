@@ -1,24 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { getSupabaseClient } from "@/lib/supabase";
 
 export default function RegisterPage() {
+  const supabase = getSupabaseClient();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [voornaam, setVoornaam] = useState("");
   const [achternaam, setAchternaam] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!supabase) {
-      console.log("Supabase not loaded");
-      return;
-    }
+    setLoading(true);
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -27,63 +25,96 @@ export default function RegisterPage() {
 
     if (error) {
       alert(error.message);
+      setLoading(false);
       return;
     }
 
     if (data.user) {
-      await supabase.from("profiles").insert([
-        {
-          id: data.user.id,
-          email,
-          voornaam,
-          achternaam,
-          plan: "free",
-        },
-      ]);
-
-      router.push("/");
+      await supabase.from("users").insert({
+        id: data.user.id,
+        email,
+        voornaam,
+        achternaam,
+        plan: "free",
+      });
     }
+
+    router.push("/login");
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>Registreren</h1>
+    <div style={container}>
+      <form onSubmit={handleRegister} style={form}>
+        <h2>Registreren</h2>
 
-      <form onSubmit={handleRegister}>
         <input
           type="text"
           placeholder="Voornaam"
           value={voornaam}
           onChange={(e) => setVoornaam(e.target.value)}
+          required
+          style={input}
         />
-        <br />
 
         <input
           type="text"
           placeholder="Achternaam"
           value={achternaam}
           onChange={(e) => setAchternaam(e.target.value)}
+          required
+          style={input}
         />
-        <br />
 
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+          style={input}
         />
-        <br />
 
         <input
           type="password"
           placeholder="Wachtwoord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
+          style={input}
         />
-        <br />
 
-        <button type="submit">Account aanmaken</button>
+        <button type="submit" disabled={loading} style={button}>
+          {loading ? "Bezig..." : "Registreren"}
+        </button>
       </form>
     </div>
   );
 }
+
+const container = {
+  height: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const form = {
+  display: "flex",
+  flexDirection: "column" as const,
+  gap: "15px",
+  width: "300px",
+};
+
+const input = {
+  padding: "10px",
+  fontSize: "16px",
+};
+
+const button = {
+  padding: "12px",
+  fontSize: "16px",
+  background: "green",
+  color: "white",
+  border: "none",
+  cursor: "pointer",
+};
