@@ -4,62 +4,39 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const router = useRouter();
   const supabase = getSupabaseClient();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [voornaam, setVoornaam] = useState("");
-  const [achternaam, setAchternaam] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    console.log("Register clicked");
-
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
-      console.log("Error:", error.message);
       alert(error.message);
       setLoading(false);
       return;
     }
 
-    console.log("User created:", data);
-
-    alert("Account succesvol aangemaakt!");
-    router.push("/login");
+    alert("Succesvol ingelogd!");
+    router.push("/");
   };
 
   return (
     <div style={{ padding: "40px" }}>
-      <h1>Registreren</h1>
+      <h1>Inloggen</h1>
 
-      <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: "15px", maxWidth: "400px" }}>
+      <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "15px", maxWidth: "400px" }}>
         
-        <input
-          type="text"
-          placeholder="Voornaam"
-          value={voornaam}
-          onChange={(e) => setVoornaam(e.target.value)}
-          required
-        />
-
-        <input
-          type="text"
-          placeholder="Achternaam"
-          value={achternaam}
-          onChange={(e) => setAchternaam(e.target.value)}
-          required
-        />
-
         <input
           type="email"
           placeholder="Email"
@@ -77,7 +54,7 @@ export default function RegisterPage() {
         />
 
         <button type="submit" disabled={loading}>
-          {loading ? "Bezig..." : "Registreren"}
+          {loading ? "Bezig..." : "Inloggen"}
         </button>
       </form>
     </div>
