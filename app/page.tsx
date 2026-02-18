@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSupabase } from "@/lib/supabase";
 
 export default async function Home() {
