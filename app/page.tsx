@@ -1,48 +1,44 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 export default function Home() {
+  const router = useRouter();
+
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1 style={{ 
-        fontSize: "3rem", 
-        fontWeight: "bold",
-        textShadow: "0 0 25px #3b82f6"
-      }}>
-        Welkom bij Ignitely 🚀
-      </h1>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h1>Lanceer jouw ideeën naar de toekomst</h1>
 
-      <p style={{ 
-        marginTop: "15px",
-        fontSize: "1.2rem",
-        opacity: 0.9
-      }}>
-        Lanceer jouw ideeën naar de toekomst
-      </p>
-
-      <div style={{ marginTop: "40px", display: "flex", gap: "20px", justifyContent: "center" }}>
-        <button style={{
-          padding: "14px 35px",
-          borderRadius: "30px",
-          border: "none",
-          background: "linear-gradient(90deg, #2563eb, #1e3a8a)",
-          color: "white",
-          fontSize: "16px",
-          cursor: "pointer",
-          boxShadow: "0 0 20px rgba(59,130,246,0.7)"
-        }}>
+      <div style={{ marginTop: "40px" }}>
+        <button
+          onClick={() => router.push("/login")}
+          style={{
+            padding: "14px 35px",
+            marginRight: "20px",
+            borderRadius: "30px",
+            border: "none",
+            background: "blue",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
           Inloggen
         </button>
 
-        <button style={{
-          padding: "14px 35px",
-          borderRadius: "30px",
-          border: "2px solid #3b82f6",
-          background: "transparent",
-          color: "white",
-          fontSize: "16px",
-          cursor: "pointer"
-        }}>
+        <button
+          onClick={() => router.push("/register")}
+          style={{
+            padding: "14px 35px",
+            borderRadius: "30px",
+            border: "2px solid white",
+            background: "transparent",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
           Registreren
         </button>
       </div>
     </div>
-  )
+  );
 }
