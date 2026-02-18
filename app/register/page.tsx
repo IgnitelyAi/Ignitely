@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { supabase } from "@/lib/supabase-client"
 import { useRouter } from "next/navigation"
+import { getSupabase } from "@/lib/supabase-client"
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -15,6 +15,8 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const supabase = getSupabase()
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -41,44 +43,44 @@ export default function RegisterPage() {
       <form onSubmit={handleRegister}>
         <input
           type="text"
-          placeholder="First Name"
+          placeholder="Voornaam"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          required
+          style={{ display: "block", marginBottom: 10 }}
         />
-        <br /><br />
 
         <input
           type="text"
-          placeholder="Last Name"
+          placeholder="Achternaam"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          required
+          style={{ display: "block", marginBottom: 10 }}
         />
-        <br /><br />
 
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
+          style={{ display: "block", marginBottom: 10 }}
         />
-        <br /><br />
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Wachtwoord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
+          style={{ display: "block", marginBottom: 10 }}
         />
-        <br /><br />
 
-        <button type="submit">Create Account</button>
+        <button type="submit">Registreren</button>
       </form>
 
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {errorMessage && (
+        <p style={{ color: "red", marginTop: 10 }}>
+          {errorMessage}
+        </p>
+      )}
     </div>
   )
 }
