@@ -1,31 +1,11 @@
-"use client";
+import { getSupabase } from "@/lib/supabase";
 
-import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
+export default async function Home() {
+  const supabase = getSupabase();
 
-export default function Home() {
-  const [data, setData] = useState<any>(null);
+  const { data, error } = await supabase
+    .from("test")
+    .select("*");
 
-  useEffect(() => {
-    async function fetchData() {
-      const { data, error } = await supabase
-        .from("test")
-        .select("*");
-
-      if (error) {
-        console.error(error);
-      } else {
-        setData(data);
-      }
-    }
-
-    fetchData();
-  }, []);
-
-  return (
-    <div>
-      <h1>Supabase Connected</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  );
+  return <div>WORKING</div>;
 }
