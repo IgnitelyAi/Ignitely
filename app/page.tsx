@@ -1,44 +1,54 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
-export default function Home() {
+export default function LoginPage() {
   const router = useRouter();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    router.push("/");
+  };
+
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h1>Lanceer jouw ideeën naar de toekomst</h1>
+    <div style={{ padding: "40px" }}>
+      <h1>Inloggen</h1>
 
-      <div style={{ marginTop: "40px" }}>
-        <button
-          onClick={() => router.push("/login")}
-          style={{
-            padding: "14px 35px",
-            marginRight: "20px",
-            borderRadius: "30px",
-            border: "none",
-            background: "blue",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          Inloggen
-        </button>
+      <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "15px", maxWidth: "400px" }}>
+        <input
+          type="email"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-        <button
-          onClick={() => router.push("/register")}
-          style={{
-            padding: "14px 35px",
-            borderRadius: "30px",
-            border: "2px solid white",
-            background: "transparent",
-            color: "white",
-            cursor: "pointer",
-          }}
-        >
-          Registreren
-        </button>
-      </div>
+        <input
+          type="password"
+          placeholder="Wachtwoord"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <button type="submit">Inloggen</button>
+      </form>
     </div>
   );
 }
