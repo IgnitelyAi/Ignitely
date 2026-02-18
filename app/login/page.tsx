@@ -1,20 +1,20 @@
 "use client"
 
 import { useState } from "react"
+import { supabase } from "@/lib/supabase-client"
 import { useRouter } from "next/navigation"
-import { getSupabase } from "@/lib/supabase-client"
 
 export default function LoginPage() {
   const router = useRouter()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [errorMessage, setErrorMessage] = useState("")
+  const [message, setMessage] = useState("")
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const supabase = getSupabase()
+    setMessage("Bezig met inloggen...")
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -22,39 +22,45 @@ export default function LoginPage() {
     })
 
     if (error) {
-      setErrorMessage(error.message)
-    } else {
-      router.push("/")
+      setMessage("Inloggen mislukt. Controleer je gegevens.")
+      return
     }
+
+    setMessage("Succesvol ingelogd!")
+    router.push("/") // of /dashboard als je die later maakt
   }
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Login</h1>
+    <div style={{ padding: "40px" }}>
+      <h1>Inloggen</h1>
 
       <form onSubmit={handleLogin}>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="E-mailadres"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={{ display: "block", marginBottom: 10 }}
+          required
         />
+        <br /><br />
 
         <input
           type="password"
           placeholder="Wachtwoord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ display: "block", marginBottom: 10 }}
+          required
         />
+        <br /><br />
 
-        <button type="submit">Inloggen</button>
+        <button type="submit">
+          Inloggen
+        </button>
       </form>
 
-      {errorMessage && (
-        <p style={{ color: "red", marginTop: 10 }}>
-          {errorMessage}
+      {message && (
+        <p style={{ marginTop: "20px" }}>
+          {message}
         </p>
       )}
     </div>
