@@ -1,69 +1,61 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "@/lib/supabase";
+import { useState } from "react"
+import { supabase } from "@/lib/supabase-client"
+import { useRouter } from "next/navigation"
 
 export default function RegisterPage() {
-  const supabase = getSupabaseClient();
-  const router = useRouter();
+  const router = useRouter()
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [voornaam, setVoornaam] = useState("");
-  const [achternaam, setAchternaam] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
 
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
-    });
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      },
+    })
 
     if (error) {
-      alert(error.message);
-      setLoading(false);
-      return;
+      setErrorMessage(error.message)
+    } else {
+      router.push("/login")
     }
-
-    if (data.user) {
-      await supabase.from("users").insert({
-        id: data.user.id,
-        email,
-        voornaam,
-        achternaam,
-        plan: "free",
-      });
-    }
-
-    router.push("/login");
-  };
+  }
 
   return (
-    <div style={container}>
-      <form onSubmit={handleRegister} style={form}>
-        <h2>Registreren</h2>
+    <div style={{ padding: 40 }}>
+      <h1>Register</h1>
+
+      <form onSubmit={handleRegister}>
+        <input
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+        <br /><br />
 
         <input
           type="text"
-          placeholder="Voornaam"
-          value={voornaam}
-          onChange={(e) => setVoornaam(e.target.value)}
+          placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
           required
-          style={input}
         />
-
-        <input
-          type="text"
-          placeholder="Achternaam"
-          value={achternaam}
-          onChange={(e) => setAchternaam(e.target.value)}
-          required
-          style={input}
-        />
+        <br /><br />
 
         <input
           type="email"
@@ -71,50 +63,22 @@ export default function RegisterPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={input}
         />
+        <br /><br />
 
         <input
           type="password"
-          placeholder="Wachtwoord"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={input}
         />
+        <br /><br />
 
-        <button type="submit" disabled={loading} style={button}>
-          {loading ? "Bezig..." : "Registreren"}
-        </button>
+        <button type="submit">Create Account</button>
       </form>
+
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </div>
-  );
+  )
 }
-
-const container = {
-  height: "100vh",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const form = {
-  display: "flex",
-  flexDirection: "column" as const,
-  gap: "15px",
-  width: "300px",
-};
-
-const input = {
-  padding: "10px",
-  fontSize: "16px",
-};
-
-const button = {
-  padding: "12px",
-  fontSize: "16px",
-  background: "green",
-  color: "white",
-  border: "none",
-  cursor: "pointer",
-};

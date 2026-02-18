@@ -1,90 +1,58 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "@/lib/supabase";
+import { useState } from "react"
+import { supabase } from "@/lib/supabase-client"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
-  const supabase = getSupabaseClient();
-  const router = useRouter();
+  const router = useRouter()
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    });
+    })
 
     if (error) {
-      alert(error.message);
-      setLoading(false);
-      return;
+      setErrorMessage(error.message)
+    } else {
+      router.push("/dashboard")
     }
-
-    router.push("/");
-  };
+  }
 
   return (
-    <div style={container}>
-      <form onSubmit={handleLogin} style={form}>
-        <h2>Login</h2>
+    <div style={{ padding: 40 }}>
+      <h1>Login</h1>
 
+      <form onSubmit={handleLogin}>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={input}
         />
+        <br /><br />
 
         <input
           type="password"
-          placeholder="Wachtwoord"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={input}
         />
+        <br /><br />
 
-        <button type="submit" disabled={loading} style={button}>
-          {loading ? "Bezig..." : "Inloggen"}
-        </button>
+        <button type="submit">Login</button>
       </form>
+
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </div>
-  );
+  )
 }
-
-const container = {
-  height: "100vh",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const form = {
-  display: "flex",
-  flexDirection: "column" as const,
-  gap: "15px",
-  width: "300px",
-};
-
-const input = {
-  padding: "10px",
-  fontSize: "16px",
-};
-
-const button = {
-  padding: "12px",
-  fontSize: "16px",
-  background: "blue",
-  color: "white",
-  border: "none",
-  cursor: "pointer",
-};
