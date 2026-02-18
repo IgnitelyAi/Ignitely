@@ -1,24 +1,24 @@
 "use client"
 
 import { useState } from "react"
+import { supabase } from "@/lib/supabase-client"
 import { useRouter } from "next/navigation"
-import { getSupabase } from "@/lib/supabase-client"
 
 export default function RegisterPage() {
   const router = useRouter()
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
-  const [errorMessage, setErrorMessage] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [message, setMessage] = useState("")
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const supabase = getSupabase()
+    console.log("Registratie gestart")
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -29,16 +29,26 @@ export default function RegisterPage() {
       },
     })
 
+    console.log("DATA:", data)
+    console.log("ERROR:", error)
+
     if (error) {
-      setErrorMessage(error.message)
-    } else {
-      router.push("/login")
+      setMessage("Er is een fout opgetreden: " + error.message)
+      return
     }
+
+    setMessage(
+      "Registratie succesvol! Controleer je e-mail om je account te bevestigen."
+    )
+
+    setTimeout(() => {
+      router.push("/login")
+    }, 3000)
   }
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Register</h1>
+    <div style={{ padding: "40px" }}>
+      <h1>Account aanmaken</h1>
 
       <form onSubmit={handleRegister}>
         <input
@@ -46,39 +56,43 @@ export default function RegisterPage() {
           placeholder="Voornaam"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          style={{ display: "block", marginBottom: 10 }}
+          required
         />
+        <br /><br />
 
         <input
           type="text"
           placeholder="Achternaam"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          style={{ display: "block", marginBottom: 10 }}
+          required
         />
+        <br /><br />
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder="E-mailadres"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={{ display: "block", marginBottom: 10 }}
+          required
         />
+        <br /><br />
 
         <input
           type="password"
           placeholder="Wachtwoord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ display: "block", marginBottom: 10 }}
+          required
         />
+        <br /><br />
 
-        <button type="submit">Registreren</button>
+        <button type="submit">Account aanmaken</button>
       </form>
 
-      {errorMessage && (
-        <p style={{ color: "red", marginTop: 10 }}>
-          {errorMessage}
+      {message && (
+        <p style={{ marginTop: "20px", color: "white" }}>
+          {message}
         </p>
       )}
     </div>
