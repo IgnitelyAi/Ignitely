@@ -1,4 +1,5 @@
 "use client"
+export const dynamic = "force-dynamic"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -12,8 +13,8 @@ export default function RegisterPage() {
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,26 +33,26 @@ export default function RegisterPage() {
     })
 
     if (error) {
-      setMessage(error.message)
+      setMessage("Registratie mislukt: " + error.message)
       setLoading(false)
       return
     }
 
-    setMessage("Account succesvol aangemaakt!")
+    setMessage("Account succesvol aangemaakt. Controleer uw e-mail.")
     setLoading(false)
 
-    // direct naar login
     setTimeout(() => {
       router.push("/login")
-    }, 1500)
+    }, 2000)
   }
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
+    <div style={{ padding: 40 }}>
       <h1>Account aanmaken</h1>
 
       <form onSubmit={handleRegister}>
         <input
+          type="text"
           placeholder="Voornaam"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
@@ -60,6 +61,7 @@ export default function RegisterPage() {
         <br /><br />
 
         <input
+          type="text"
           placeholder="Achternaam"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
@@ -90,7 +92,11 @@ export default function RegisterPage() {
         </button>
       </form>
 
-      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
+      {message && (
+        <p style={{ marginTop: 20 }}>
+          {message}
+        </p>
+      )}
     </div>
   )
 }

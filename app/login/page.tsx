@@ -1,4 +1,5 @@
 "use client"
+export const dynamic = "force-dynamic"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -10,8 +11,8 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,17 +25,21 @@ export default function LoginPage() {
     })
 
     if (error) {
-      setMessage(error.message)
+      setMessage("Inloggen mislukt: " + error.message)
       setLoading(false)
       return
     }
 
+    setMessage("Succesvol ingelogd")
     setLoading(false)
-    router.push("/dashboard")
+
+    setTimeout(() => {
+      router.push("/dashboard")
+    }, 1000)
   }
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
+    <div style={{ padding: 40 }}>
       <h1>Inloggen</h1>
 
       <form onSubmit={handleLogin}>
@@ -61,7 +66,11 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
+      {message && (
+        <p style={{ marginTop: 20 }}>
+          {message}
+        </p>
+      )}
     </div>
   )
 }
