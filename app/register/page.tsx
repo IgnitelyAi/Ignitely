@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createClient } from "@supabase/supabase-js"
+import { supabase } from "@/lib/supabase-client"
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -18,11 +18,6 @@ export default function RegisterPage() {
     e.preventDefault()
     setLoading(true)
     setMessage("")
-
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -41,27 +36,32 @@ export default function RegisterPage() {
       return
     }
 
-    router.push("/packages")
+    // Direct doorsturen naar pakketten
+    router.push("/pakketten")
   }
 
   return (
-    <div>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
       <h1>Account aanmaken</h1>
 
       <form onSubmit={handleRegister}>
         <input
+          type="text"
           placeholder="Voornaam"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           required
         />
+        <br /><br />
 
         <input
+          type="text"
           placeholder="Achternaam"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           required
         />
+        <br /><br />
 
         <input
           type="email"
@@ -70,6 +70,7 @@ export default function RegisterPage() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        <br /><br />
 
         <input
           type="password"
@@ -78,13 +79,14 @@ export default function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <br /><br />
 
         <button type="submit" disabled={loading}>
-          {loading ? "Bezig..." : "Registreren"}
+          {loading ? "Bezig..." : "Account aanmaken"}
         </button>
       </form>
 
-      {message && <p>{message}</p>}
+      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
     </div>
   )
 }
