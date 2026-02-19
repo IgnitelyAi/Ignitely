@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 
 export default function Home() {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div style={{ padding: "40px" }}>
@@ -17,8 +17,8 @@ export default function Home() {
       </button>
 
       <button onClick={() => router.push("/register")}>
-        Registreren
+        Account aanmaken
       </button>
     </div>
-  );
+  )
 }

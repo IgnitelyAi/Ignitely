@@ -14,20 +14,16 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    setMessage("Bezig met inloggen...")
-
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
 
     if (error) {
-      setMessage("Inloggen mislukt. Controleer je gegevens.")
-      return
+      setMessage("Inloggen mislukt: " + error.message)
+    } else {
+      router.push("/dashboard")
     }
-
-    setMessage("Succesvol ingelogd!")
-    router.push("/") // of /dashboard als je die later maakt
   }
 
   return (
@@ -58,11 +54,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {message && (
-        <p style={{ marginTop: "20px" }}>
-          {message}
-        </p>
-      )}
+      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
     </div>
   )
 }
