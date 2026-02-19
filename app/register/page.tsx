@@ -16,6 +16,12 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!supabase) {
+      setMessage("Supabase niet beschikbaar")
+      return
+    }
+
     setLoading(true)
     setMessage("")
 
@@ -36,17 +42,16 @@ export default function RegisterPage() {
       return
     }
 
-    // Direct doorsturen naar pakketten
-    router.push("/pakketten")
+    // 🔥 DIRECT NAAR PAKKETTEN
+    router.push("/packages")
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
+    <div style={{ padding: "40px", textAlign: "center" }}>
       <h1>Account aanmaken</h1>
 
       <form onSubmit={handleRegister}>
         <input
-          type="text"
           placeholder="Voornaam"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
@@ -55,7 +60,6 @@ export default function RegisterPage() {
         <br /><br />
 
         <input
-          type="text"
           placeholder="Achternaam"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}

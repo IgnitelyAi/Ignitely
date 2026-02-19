@@ -14,6 +14,12 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!supabase) {
+      setMessage("Supabase niet beschikbaar")
+      return
+    }
+
     setLoading(true)
     setMessage("")
 
@@ -28,12 +34,11 @@ export default function LoginPage() {
       return
     }
 
-    // Na login doorsturen naar pakketten
-    router.push("/pakketten")
+    router.push("/packages")
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
+    <div style={{ padding: "40px", textAlign: "center" }}>
       <h1>Inloggen</h1>
 
       <form onSubmit={handleLogin}>

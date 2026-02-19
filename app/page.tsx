@@ -6,7 +6,7 @@ export default function Home() {
   const router = useRouter()
 
   return (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: "40px", textAlign: "center" }}>
       <h1>Welkom bij IgniteLy</h1>
 
       <button
