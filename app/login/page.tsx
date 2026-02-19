@@ -6,18 +6,17 @@ import { getSupabaseClient } from "@/lib/supabase-client"
 
 export default function LoginPage() {
   const router = useRouter()
+  const supabase = getSupabaseClient()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState("")
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setMessage("")
-
-    const supabase = getSupabaseClient()
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -25,21 +24,17 @@ export default function LoginPage() {
     })
 
     if (error) {
-      setMessage("Inloggen mislukt: " + error.message)
+      setMessage(error.message)
       setLoading(false)
       return
     }
 
-    setMessage("Succesvol ingelogd!")
     setLoading(false)
-
-    setTimeout(() => {
-      router.push("/dashboard")
-    }, 1000)
+    router.push("/dashboard")
   }
 
   return (
-    <div style={{ padding: 40 }}>
+    <div style={{ padding: "40px", textAlign: "center" }}>
       <h1>Inloggen</h1>
 
       <form onSubmit={handleLogin}>
@@ -66,9 +61,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {message && (
-        <p style={{ marginTop: 20 }}>{message}</p>
-      )}
+      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
     </div>
   )
 }
