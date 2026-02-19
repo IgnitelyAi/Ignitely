@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { supabase } from "@/lib/supabase-client"
+import { supabase } from "@/lib/supabase"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -14,12 +14,6 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (!supabase) {
-      setMessage("Supabase niet beschikbaar")
-      return
-    }
-
     setLoading(true)
     setMessage("")
 
@@ -34,11 +28,12 @@ export default function LoginPage() {
       return
     }
 
+    // SUCCES → NAAR PACKAGES
     router.push("/packages")
   }
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
       <h1>Inloggen</h1>
 
       <form onSubmit={handleLogin}>
@@ -65,7 +60,11 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
+      {message && (
+        <p style={{ color: "red", marginTop: "20px" }}>
+          {message}
+        </p>
+      )}
     </div>
   )
 }
