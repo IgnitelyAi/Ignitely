@@ -1,5 +1,4 @@
 "use client"
-export const dynamic = "force-dynamic"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -7,18 +6,17 @@ import { getSupabaseClient } from "@/lib/supabase-client"
 
 export default function LoginPage() {
   const router = useRouter()
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState("")
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setMessage("")
 
-    const supabase = getSupabaseClient()
+    const supabase = getSupabaseClient() // ✅ BINNEN FUNCTIE
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -26,17 +24,16 @@ export default function LoginPage() {
     })
 
     if (error) {
-      setMessage("Inloggen mislukt: " + error.message)
+      setMessage(error.message)
       setLoading(false)
       return
     }
 
-    // 👇 DIRECT naar pakketten
     router.push("/packages")
   }
 
   return (
-    <div style={{ padding: 40 }}>
+    <div>
       <h1>Inloggen</h1>
 
       <form onSubmit={handleLogin}>
@@ -47,7 +44,6 @@ export default function LoginPage() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <br /><br />
 
         <input
           type="password"
@@ -56,7 +52,6 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <br /><br />
 
         <button type="submit" disabled={loading}>
           {loading ? "Bezig..." : "Inloggen"}
