@@ -1,15 +1,10 @@
 export default function PackagesPage() {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Kies uw pakket</h1>
-
-      <button>Starter Pakket</button>
-      <br /><br />
-
-      <button>Professional Pakket</button>
-      <br /><br />
-
-      <button>Enterprise Pakket</button>
+    <div>
+      <h1>Kies je pakket</h1>
+      <button>Starter</button>
+      <button>Pro</button>
+      <button>Premium</button>
     </div>
   )
 }

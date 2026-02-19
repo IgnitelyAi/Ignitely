@@ -2,10 +2,13 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { getSupabaseClient } from "@/lib/supabase-client"
+import { createClient } from "@supabase/supabase-js"
 
 export default function RegisterPage() {
   const router = useRouter()
+
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -16,11 +19,20 @@ export default function RegisterPage() {
     setLoading(true)
     setMessage("")
 
-    const supabase = getSupabaseClient() // ✅ BINNEN FUNCTIE
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      },
     })
 
     if (error) {
@@ -38,6 +50,20 @@ export default function RegisterPage() {
 
       <form onSubmit={handleRegister}>
         <input
+          placeholder="Voornaam"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+
+        <input
+          placeholder="Achternaam"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+
+        <input
           type="email"
           placeholder="E-mailadres"
           value={email}
@@ -54,7 +80,7 @@ export default function RegisterPage() {
         />
 
         <button type="submit" disabled={loading}>
-          {loading ? "Bezig..." : "Account aanmaken"}
+          {loading ? "Bezig..." : "Registreren"}
         </button>
       </form>
 
