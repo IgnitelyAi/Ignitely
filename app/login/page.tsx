@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { supabase } from "@/lib/supabase-client"
 import { useRouter } from "next/navigation"
+import { getSupabaseClient } from "@/lib/supabase-client"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -10,9 +10,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    setMessage("")
+
+    const supabase = getSupabaseClient()
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -21,13 +26,20 @@ export default function LoginPage() {
 
     if (error) {
       setMessage("Inloggen mislukt: " + error.message)
-    } else {
-      router.push("/dashboard")
+      setLoading(false)
+      return
     }
+
+    setMessage("Succesvol ingelogd!")
+    setLoading(false)
+
+    setTimeout(() => {
+      router.push("/dashboard")
+    }, 1000)
   }
 
   return (
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: 40 }}>
       <h1>Inloggen</h1>
 
       <form onSubmit={handleLogin}>
@@ -49,12 +61,14 @@ export default function LoginPage() {
         />
         <br /><br />
 
-        <button type="submit">
-          Inloggen
+        <button type="submit" disabled={loading}>
+          {loading ? "Bezig..." : "Inloggen"}
         </button>
       </form>
 
-      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
+      {message && (
+        <p style={{ marginTop: 20 }}>{message}</p>
+      )}
     </div>
   )
 }

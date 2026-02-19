@@ -1,39 +1,74 @@
 "use client"
 
 import { useState } from "react"
-import { supabase } from "@/lib/supabase-client"
 import { useRouter } from "next/navigation"
+import { getSupabaseClient } from "@/lib/supabase-client"
 
 export default function RegisterPage() {
   const router = useRouter()
 
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    setMessage("")
+
+    const supabase = getSupabaseClient()
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
+      },
     })
 
     if (error) {
       setMessage("Registratie mislukt: " + error.message)
-    } else {
-      setMessage("Account succesvol aangemaakt!")
-      setTimeout(() => {
-        router.push("/dashboard")
-      }, 1500)
+      setLoading(false)
+      return
     }
+
+    setMessage("Account succesvol aangemaakt! Controleer je e-mail.")
+    setLoading(false)
+
+    setTimeout(() => {
+      router.push("/login")
+    }, 2000)
   }
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>Account registreren</h1>
+    <div style={{ padding: 40 }}>
+      <h1>Account aanmaken</h1>
 
       <form onSubmit={handleRegister}>
+        <input
+          type="text"
+          placeholder="Voornaam"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+        <br /><br />
+
+        <input
+          type="text"
+          placeholder="Achternaam"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+        <br /><br />
+
         <input
           type="email"
           placeholder="E-mailadres"
@@ -52,12 +87,14 @@ export default function RegisterPage() {
         />
         <br /><br />
 
-        <button type="submit">
-          Registreren
+        <button type="submit" disabled={loading}>
+          {loading ? "Bezig..." : "Account aanmaken"}
         </button>
       </form>
 
-      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
+      {message && (
+        <p style={{ marginTop: 20 }}>{message}</p>
+      )}
     </div>
   )
 }
