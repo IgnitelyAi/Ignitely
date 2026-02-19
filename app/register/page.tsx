@@ -7,7 +7,6 @@ import { getSupabaseClient } from "@/lib/supabase-client"
 
 export default function RegisterPage() {
   const router = useRouter()
-  const supabase = getSupabaseClient()
 
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -20,6 +19,9 @@ export default function RegisterPage() {
     e.preventDefault()
     setLoading(true)
     setMessage("")
+
+    // 👇 Supabase hier aanmaken (NIET bovenin!)
+    const supabase = getSupabaseClient()
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -38,12 +40,8 @@ export default function RegisterPage() {
       return
     }
 
-    setMessage("Account succesvol aangemaakt. Controleer uw e-mail.")
-    setLoading(false)
-
-    setTimeout(() => {
-      router.push("/login")
-    }, 2000)
+    // 👇 DIRECT naar pakketten
+    router.push("/packages")
   }
 
   return (
@@ -92,11 +90,7 @@ export default function RegisterPage() {
         </button>
       </form>
 
-      {message && (
-        <p style={{ marginTop: 20 }}>
-          {message}
-        </p>
-      )}
+      {message && <p>{message}</p>}
     </div>
   )
 }

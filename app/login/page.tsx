@@ -7,7 +7,6 @@ import { getSupabaseClient } from "@/lib/supabase-client"
 
 export default function LoginPage() {
   const router = useRouter()
-  const supabase = getSupabaseClient()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -18,6 +17,8 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setMessage("")
+
+    const supabase = getSupabaseClient()
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -30,12 +31,8 @@ export default function LoginPage() {
       return
     }
 
-    setMessage("Succesvol ingelogd")
-    setLoading(false)
-
-    setTimeout(() => {
-      router.push("/dashboard")
-    }, 1000)
+    // 👇 DIRECT naar pakketten
+    router.push("/packages")
   }
 
   return (
@@ -66,11 +63,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      {message && (
-        <p style={{ marginTop: 20 }}>
-          {message}
-        </p>
-      )}
+      {message && <p>{message}</p>}
     </div>
   )
 }
