@@ -9,62 +9,106 @@ export default function RegisterPage() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [selectedPackage, setSelectedPackage] = useState("free")
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setMessage("")
+    setErrorMessage("")
 
-    const { error } = await supabase.auth.signUp({
+    // 1️⃣ Maak auth user aan
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     })
 
     if (error) {
-      setMessage(error.message)
+      setErrorMessage(error.message)
       setLoading(false)
       return
     }
 
-    // SUCCES → DOOR NAAR PACKAGES
-    router.push("/packages")
+    if (!data.user) {
+      setErrorMessage("User creation failed")
+      setLoading(false)
+      return
+    }
+
+    // 2️⃣ Maak user profiel via server route
+    const res = await fetch("/api/create-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: data.user.id,
+        email: data.user.email,
+        selectedPackage
+      })
+    })
+
+    if (!res.ok) {
+      setErrorMessage("Error creating user profile")
+      setLoading(false)
+      return
+    }
+
+    setLoading(false)
+    router.push("/ai-agent")
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h1>Account aanmaken</h1>
+    <div className="min-h-screen flex items-center justify-center bg-black text-white">
+      <div className="bg-zinc-900 p-8 rounded-xl w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          🚀 Create Your Ignitely Account
+        </h1>
 
-      <form onSubmit={handleRegister}>
-        <input
-          type="email"
-          placeholder="E-mailadres"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <br /><br />
+        <form onSubmit={handleRegister} className="space-y-4">
 
-        <input
-          type="password"
-          placeholder="Wachtwoord"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br /><br />
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-3 rounded bg-zinc-800 border border-zinc-700"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Bezig..." : "Account aanmaken"}
-        </button>
-      </form>
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 rounded bg-zinc-800 border border-zinc-700"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-      {message && (
-        <p style={{ color: "red", marginTop: "20px" }}>
-          {message}
-        </p>
-      )}
+          <select
+            className="w-full p-3 rounded bg-zinc-800 border border-zinc-700"
+            value={selectedPackage}
+            onChange={(e) => setSelectedPackage(e.target.value)}
+          >
+            <option value="free">Free (15 credits)</option>
+            <option value="starter">Starter (150 credits)</option>
+            <option value="pro">Pro (Unlimited)</option>
+          </select>
+
+          {errorMessage && (
+            <p className="text-red-500 text-sm">{errorMessage}</p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-semibold"
+          >
+            {loading ? "Creating Account..." : "Create Account"}
+          </button>
+        </form>
+      </div>
     </div>
   )
 }
