@@ -2,7 +2,6 @@
 
 import { createClient } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,44 +10,42 @@ const supabase = createClient(
 
 export default function ChoosePlan() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser()
-      if (!data.user) router.push("/login")
-      else setUser(data.user)
-    }
+  const handleSelectPlan = async (plan: string) => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser()
 
-    getUser()
-  }, [])
+    if (!user) return
 
-  const selectPlan = async (plan: string) => {
-    await fetch("/api/create-user", {
+    // 🔥 HIER WORDT HET PLAN OPGESLAGEN
+    await fetch("/api/set-plan", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         userId: user.id,
-        selectedPackage: plan,
-      }),
+        plan
+      })
     })
 
-    router.push("/dashboard")
+    router.push("/ai-agent")
   }
 
   return (
     <div>
-      <h1>Choose Your Plan</h1>
+      <h1>Kies je pakket</h1>
 
-      <button onClick={() => selectPlan("free")}>
+      <button onClick={() => handleSelectPlan("free")}>
         Free (15 credits)
       </button>
 
-      <button onClick={() => selectPlan("starter")}>
+      <button onClick={() => handleSelectPlan("starter")}>
         Starter (150 credits)
       </button>
 
-      <button onClick={() => selectPlan("pro")}>
+      <button onClick={() => handleSelectPlan("pro")}>
         Pro (Unlimited)
       </button>
     </div>
