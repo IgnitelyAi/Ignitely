@@ -14,7 +14,6 @@ export async function POST(req: Request) {
       address,
       postalCode,
       city,
-      country,
     } = body
 
     const supabase = createClient(
@@ -24,21 +23,19 @@ export async function POST(req: Request) {
 
     const { error } = await supabase.from("profiles").insert({
       id: userId,
-      email,
-      first_name: firstName,
-      last_name: lastName,
-      phone,
-      birth_date: birthDate,
-      address,
-      postal_code: postalCode,
-      city,
-      country,
+      email: email,
+      voornaam: firstName,
+      achternaam: lastName,
+      geboortedatum: birthDate,
+      adres: address,
+      postcode: postalCode,
+      plaats: city,
     })
 
     if (error) {
       console.error(error)
       return new Response(
-        JSON.stringify({ error: "Profile insert failed" }),
+        JSON.stringify({ error: error.message }),
         { status: 500 }
       )
     }
