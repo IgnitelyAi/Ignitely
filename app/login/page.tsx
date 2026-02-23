@@ -1,70 +1,50 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
+import { useRouter } from "next/navigation"
 
-export default function LoginPage() {
+export default function Login() {
   const router = useRouter()
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState("")
+  const [error, setError] = useState("")
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setMessage("")
-
+  const handleLogin = async () => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
 
     if (error) {
-      setMessage(error.message)
-      setLoading(false)
+      setError(error.message)
       return
     }
 
-    // SUCCES → NAAR PACKAGES
-    router.push("/packages")
+    router.push("/dashboard")
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "100px" }}>
-      <h1>Inloggen</h1>
+    <div style={{ padding: 40 }}>
+      <h1>Login</h1>
 
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="E-mailadres"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <br /><br />
+      <input
+        type="email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br /><br />
 
-        <input
-          type="password"
-          placeholder="Wachtwoord"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <br /><br />
+      <input
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <br /><br />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Bezig..." : "Inloggen"}
-        </button>
-      </form>
+      <button onClick={handleLogin}>
+        Login
+      </button>
 
-      {message && (
-        <p style={{ color: "red", marginTop: "20px" }}>
-          {message}
-        </p>
-      )}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   )
 }

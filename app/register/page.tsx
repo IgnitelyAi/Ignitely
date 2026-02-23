@@ -1,111 +1,202 @@
 "use client"
-
 import { useState } from "react"
 import { createClient } from "@supabase/supabase-js"
-import { useRouter } from "next/navigation"
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-export default function RegisterPage() {
-  const router = useRouter()
-
+export default function Register() {
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
 
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    phone: "",
-    birthDate: "",
-    address: "",
-    postalCode: "",
-    city: "",
-    country: "",
-  })
-
-  const handleChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-
-  const handleRegister = async (e: any) => {
+  async function handleSubmit(e: any) {
     e.preventDefault()
     setLoading(true)
-    setError("")
 
-    // 1️⃣ Create auth user
-    const { data, error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
+    const form = new FormData(e.target)
+
+    const { error } = await supabase.auth.signUp({
+      email: form.get("email") as string,
+      password: form.get("password") as string,
+      options: {
+        emailRedirectTo: "http://localhost:3000/login"
+      }
     })
 
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-      return
+    setLoading(false)
+
+    if (!error) {
+      setSuccess(true)
+    } else {
+      alert(error.message)
     }
+  }
 
-    const user = data.user
-    if (!user) {
-      setError("User creation failed")
-      setLoading(false)
-      return
-    }
+  if (success) {
+    return (
+      <div className="successWrapper">
+        <div className="successCard">
+          <h1>🚀 Ignitely heeft je een verificatie email gestuurd</h1>
+          <p>
+            Controleer je inbox en bevestig je account om direct te starten met bouwen.
+          </p>
+          <div className="glow"></div>
+        </div>
 
-    // 2️⃣ Save profile
-    const profileRes = await fetch("/api/create-profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,
-        email: form.email,
-        firstName: form.firstName,
-        lastName: form.lastName,
-        phone: form.phone,
-        birthDate: form.birthDate,
-        address: form.address,
-        postalCode: form.postalCode,
-        city: form.city,
-        country: form.country,
-      }),
-    })
+        <style jsx>{`
+          .successWrapper {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle,#1e1b4b,#0a0a0f 70%);
+            color: white;
+            text-align: center;
+          }
 
-    if (!profileRes.ok) {
-      setError("Error saving profile")
-      setLoading(false)
-      return
-    }
+          .successCard {
+            padding: 60px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            max-width: 600px;
+            animation: fadeIn 0.8s ease;
+          }
 
-    // 3️⃣ Go to choose plan
-    router.push("/choose-plan")
+          h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+          }
+
+          p {
+            opacity: 0.7;
+          }
+
+          @keyframes fadeIn {
+            from {opacity:0; transform:translateY(20px)}
+            to {opacity:1; transform:translateY(0)}
+          }
+        `}</style>
+      </div>
+    )
   }
 
   return (
-    <div>
-      <h1>Create Your IgniteIy Account</h1>
+    <div className="wrapper">
 
-      <form onSubmit={handleRegister}>
-        <input name="firstName" placeholder="First Name" onChange={handleChange} required />
-        <input name="lastName" placeholder="Last Name" onChange={handleChange} required />
-        <input name="email" type="email" placeholder="Email" onChange={handleChange} required />
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} required />
-        <input name="phone" placeholder="Phone Number" onChange={handleChange} required />
-        <input name="birthDate" type="date" onChange={handleChange} required />
-        <input name="address" placeholder="Address" onChange={handleChange} required />
-        <input name="postalCode" placeholder="Postal Code" onChange={handleChange} required />
-        <input name="city" placeholder="City" onChange={handleChange} required />
-        <input name="country" placeholder="Country" onChange={handleChange} required />
+      <div className="backgroundLogo"></div>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className="card">
+        <h1>
+          Word onderdeel van <span>Ignitely</span>
+        </h1>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Create Account"}
-        </button>
-      </form>
+        <p>
+          Bouw krachtige AI websites. Snel. Slim. Professioneel.
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          <input name="firstName" placeholder="Voornaam" required />
+          <input name="lastName" placeholder="Achternaam" required />
+          <input type="date" name="birthDate" required />
+          <input name="address" placeholder="Adres" required />
+          <input type="email" name="email" placeholder="E-mailadres" required />
+          <input type="password" name="password" placeholder="Wachtwoord" required />
+
+          <button disabled={loading}>
+            {loading ? "Account wordt aangemaakt..." : "Account Aanmaken 🚀"}
+          </button>
+        </form>
+      </div>
+
+      <style jsx>{`
+
+        .wrapper {
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: radial-gradient(circle,#1e1b4b,#0a0a0f 70%);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .backgroundLogo {
+          position: fixed;
+          inset: 0;
+          background: url('/logo.png') center no-repeat;
+          background-size: 900px;
+          opacity: 0.04;
+        }
+
+        .card {
+          width: 100%;
+          max-width: 520px;
+          padding: 60px;
+          border-radius: 30px;
+          background: rgba(255,255,255,0.05);
+          backdrop-filter: blur(25px);
+          box-shadow: 0 0 40px rgba(124,58,237,0.3);
+          color: white;
+          position: relative;
+        }
+
+        h1 {
+          text-align: center;
+          font-size: 32px;
+        }
+
+        h1 span {
+          background: linear-gradient(90deg,#7c3aed,#2563eb);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        p {
+          text-align: center;
+          opacity: 0.7;
+          margin: 15px 0 40px 0;
+        }
+
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        input {
+          padding: 14px;
+          border-radius: 14px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255,255,255,0.08);
+          color: white;
+          transition: 0.3s;
+        }
+
+        input:focus {
+          border: 1px solid #7c3aed;
+          box-shadow: 0 0 15px rgba(124,58,237,0.6);
+        }
+
+        button {
+          padding: 15px;
+          border-radius: 16px;
+          border: none;
+          font-weight: 700;
+          background: linear-gradient(90deg,#7c3aed,#2563eb);
+          color: white;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        button:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 0 30px rgba(124,58,237,0.8);
+        }
+
+      `}</style>
     </div>
   )
 }
