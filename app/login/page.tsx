@@ -2,11 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createBrowserClient } from "@supabase/ssr";
 
 export default function LoginPage() {
-  const supabase = createClientComponentClient();
   const router = useRouter();
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,28 +28,29 @@ export default function LoginPage() {
     setLoading(false);
 
     if (error) {
-      alert("Onjuiste inloggegevens.");
+      alert("❌ Ongeldige inloggegevens");
     } else {
       router.push("/dashboard");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-[#0f172a] to-black relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
 
-      {/* Glow effecten */}
-      <div className="absolute w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[200px] top-[-200px] right-[-200px]" />
-      <div className="absolute w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[200px] bottom-[-200px] left-[-200px]" />
+      {/* Achtergrond Glow */}
+      <div className="absolute w-[600px] h-[600px] bg-blue-600 rounded-full blur-[200px] opacity-30 top-[-200px] left-[-200px]" />
+      <div className="absolute w-[500px] h-[500px] bg-purple-600 rounded-full blur-[200px] opacity-30 bottom-[-200px] right-[-200px]" />
 
       {/* Login Card */}
-      <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 p-10 rounded-2xl shadow-2xl w-full max-w-md">
+      <div className="relative z-10 w-full max-w-md p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
 
-        <h1 className="text-3xl font-bold text-white mb-2 text-center">
-          Welkom terug 🚀
+        {/* Logo Titel */}
+        <h1 className="text-3xl font-bold text-center text-white mb-2">
+          🚀 Welkom terug bij <span className="text-blue-400">Ignitely</span>
         </h1>
 
-        <p className="text-gray-400 text-center mb-8">
-          Log in bij Ignitely en bouw verder
+        <p className="text-center text-gray-300 mb-8">
+          Log in en bouw verder aan jouw AI-website.
         </p>
 
         <form onSubmit={handleLogin} className="space-y-5">
@@ -53,38 +58,36 @@ export default function LoginPage() {
           <input
             type="email"
             placeholder="E-mailadres"
+            required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition"
+            className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <input
             type="password"
             placeholder="Wachtwoord"
+            required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition"
+            className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 transition rounded-lg py-3 font-semibold text-white shadow-lg shadow-purple-500/30"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:opacity-90 transition duration-300"
           >
             {loading ? "Even geduld..." : "Inloggen"}
           </button>
-
         </form>
 
-        <div className="mt-6 text-center text-gray-400 text-sm">
+        <div className="text-center mt-6 text-gray-300 text-sm">
           Nog geen account?{" "}
           <a href="/register" className="text-blue-400 hover:underline">
             Maak er één aan
           </a>
         </div>
-
       </div>
     </div>
   );
