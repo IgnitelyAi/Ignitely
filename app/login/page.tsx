@@ -35,22 +35,32 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white">
 
-      {/* Achtergrond Glow */}
-      <div className="absolute w-[600px] h-[600px] bg-blue-600 rounded-full blur-[200px] opacity-30 top-[-200px] left-[-200px]" />
-      <div className="absolute w-[500px] h-[500px] bg-purple-600 rounded-full blur-[200px] opacity-30 bottom-[-200px] right-[-200px]" />
+      {/* LOGO BACKGROUND */}
+      <div
+        className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-10"
+        style={{ backgroundImage: "url('/logo.jpg')" }}
+      />
 
-      {/* Login Card */}
-      <div className="relative z-10 w-full max-w-md p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
+      {/* GLOW EFFECTS */}
+      <div className="absolute w-[700px] h-[700px] bg-blue-600 rounded-full blur-[250px] opacity-30 -top-40 -left-40" />
+      <div className="absolute w-[600px] h-[600px] bg-purple-600 rounded-full blur-[250px] opacity-30 -bottom-40 -right-40" />
 
-        {/* Logo Titel */}
-        <h1 className="text-3xl font-bold text-center text-white mb-2">
-          🚀 Welkom terug bij <span className="text-blue-400">Ignitely</span>
+      {/* CARD */}
+      <div className="relative z-10 w-full max-w-md p-10 rounded-3xl bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_0_80px_rgba(0,0,255,0.3)]">
+
+        {/* LOGO TOP */}
+        <div className="flex justify-center mb-6">
+          <img src="/logo.jpg" alt="Ignitely" className="w-16 h-16 object-contain" />
+        </div>
+
+        <h1 className="text-4xl font-bold text-center mb-2">
+          Welkom terug bij <span className="text-blue-400">Ignitely</span>
         </h1>
 
         <p className="text-center text-gray-300 mb-8">
-          Log in en bouw verder aan jouw AI-website.
+          🚀 Log in en lanceer jouw AI-project opnieuw.
         </p>
 
         <form onSubmit={handleLogin} className="space-y-5">
@@ -61,7 +71,7 @@ export default function LoginPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-4 rounded-xl bg-black/40 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
 
           <input
@@ -70,15 +80,15 @@ export default function LoginPage() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full p-4 rounded-xl bg-black/40 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:opacity-90 transition duration-300"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-lg hover:scale-105 transition transform"
           >
-            {loading ? "Even geduld..." : "Inloggen"}
+            {loading ? "Bezig met inloggen..." : "Inloggen"}
           </button>
         </form>
 
