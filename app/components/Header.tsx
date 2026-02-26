@@ -27,11 +27,17 @@ export default function Header() {
         </div>
 
         <nav className="site-nav hidden md:flex items-center gap-6">
-          <Link href="/login" className="text-sm text-gray-300 hover:text-white transition">Inloggen</Link>
-          <Link href="/register" className="text-sm text-gray-300 hover:text-white transition">Registreren</Link>
-          <Link href="/packages" className="text-sm text-gray-300 hover:text-white transition">Pakketten</Link>
-          <Link href="/about" className="text-sm text-gray-300 hover:text-white transition">Over ons</Link>
-          <Link href="/register" className="ml-4 header-cta bg-white text-black px-4 py-2 rounded-full text-sm font-medium">Registreren</Link>
+          <div className="nav-links">
+            <Link href="/login" className="text-sm text-gray-300 hover:text-white transition">Inloggen</Link>
+            <Link href="/register" className="text-sm text-gray-300 hover:text-white transition">Registreren</Link>
+            <Link href="/packages" className="text-sm text-gray-300 hover:text-white transition">Pakketten</Link>
+            <Link href="/about" className="text-sm text-gray-300 hover:text-white transition">Over ons</Link>
+          </div>
+
+          <div className="nav-actions">
+            <Link href="/login" className="btn-ghost text-sm text-gray-300 hover:text-white transition">Inloggen</Link>
+            <Link href="/register" className="btn-primary text-sm">Registreren</Link>
+          </div>
         </nav>
 
         {/* Mobile */}
@@ -68,7 +74,7 @@ export default function Header() {
             </nav>
 
             <div className="mt-6">
-              <Link href="/register" onClick={() => setOpen(false)} className="block text-center bg-white text-black px-4 py-2 rounded-full">Registreren</Link>
+              <Link href="/register" onClick={() => setOpen(false)} className="block text-center btn-primary">Registreren</Link>
             </div>
           </div>
         </div>

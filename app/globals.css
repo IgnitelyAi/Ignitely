@@ -82,3 +82,21 @@ body {
 .site-nav a:hover{ color: #fff }
 
 .header-cta{ box-shadow: 0 6px 24px rgba(0,0,0,0.45) }
+
+/* Primary button used in header */
+.btn-primary{
+  background: linear-gradient(90deg,#7c5cff,#3dd1c7);
+  color: #050507;
+  padding: 0.55rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  box-shadow: 0 8px 30px rgba(124,92,255,0.12);
+  transition: transform .18s ease, box-shadow .18s ease, opacity .12s ease;
+}
+.btn-primary:hover{ transform: translateY(-2px) scale(1.01); box-shadow: 0 12px 40px rgba(124,92,255,0.16) }
+.btn-primary:active{ transform: translateY(0) }
+.btn-ghost{ background: transparent; border-radius: 9999px; padding: .45rem .9rem }
+
+.site-nav{ align-items: center }
+.site-nav .nav-links{ display: flex; gap: 1.25rem; align-items:center }
+.site-nav .nav-actions{ display:flex; gap:.75rem; align-items:center }
