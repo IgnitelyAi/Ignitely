@@ -38,46 +38,31 @@ export default function Register() {
     return (
       <div className="successWrapper">
         <div className="successCard">
-          <h1>🚀 Ignitely heeft je een verificatie email gestuurd</h1>
-          <p>
-            Controleer je inbox en bevestig je account om direct te starten met bouwen.
-          </p>
-          <div className="glow"></div>
+          <h1>🎉 Account aangemaakt — kies een pakket</h1>
+          <p>Bedankt! Kies een pakket om direct met de AI-websitebuilder te starten.</p>
+
+          <div className="packages" style={{marginTop:20}}>
+            <label className="pkg">
+              <input type="radio" name="pkg" value="starter" defaultChecked /> Starter — €29/mnd
+            </label>
+            <label className="pkg">
+              <input type="radio" name="pkg" value="pro" /> Pro — €79/mnd
+            </label>
+            <label className="pkg">
+              <input type="radio" name="pkg" value="enterprise" /> Enterprise — Op maat
+            </label>
+          </div>
+
+          <div style={{marginTop:18}}>
+            <a href="/builder?pkg=starter" className="startBtn">Start AI Builder</a>
+          </div>
         </div>
 
         <style jsx>{`
-          .successWrapper {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle,#1e1b4b,#0a0a0f 70%);
-            color: white;
-            text-align: center;
-          }
-
-          .successCard {
-            padding: 60px;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(20px);
-            max-width: 600px;
-            animation: fadeIn 0.8s ease;
-          }
-
-          h1 {
-            font-size: 28px;
-            margin-bottom: 20px;
-          }
-
-          p {
-            opacity: 0.7;
-          }
-
-          @keyframes fadeIn {
-            from {opacity:0; transform:translateY(20px)}
-            to {opacity:1; transform:translateY(0)}
-          }
+          .successWrapper { height:100vh; display:flex; justify-content:center; align-items:center; background: radial-gradient(circle,#1e1b4b,#0a0a0f 70%); color:white }
+          .successCard { padding:40px; border-radius:20px; background:rgba(255,255,255,0.04); backdrop-filter: blur(12px); max-width:640px; text-align:center }
+          .pkg{ display:block; margin:10px 0; font-size:16px }
+          .startBtn{ display:inline-block; padding:12px 18px; border-radius:12px; background:linear-gradient(90deg,#7c3aed,#2563eb); color:white; font-weight:700; text-decoration:none }
         `}</style>
       </div>
     )
