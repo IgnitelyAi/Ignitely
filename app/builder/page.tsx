@@ -117,36 +117,9 @@ export default function BuilderPage(){
       `}</style>
     </div>
   )
-}
+import ClientBuilder from './ClientBuilder'
 
-function ChatBox({previewHtml, pkg}: any){
-  const [messages, setMessages] = useState<any[]>([])
-  const [text, setText] = useState('')
+export default function Page() {
+  return <ClientBuilder />
+}
   const [loading, setLoading] = useState(false)
-
-  async function send(){
-    if(!text) return
-    const userMsg = {role:'user', text}
-    setMessages(m=>[...m,userMsg])
-    setText('')
-    setLoading(true)
-    try{
-      const res = await fetch('/api/ai/chat',{method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify({pkg, messages:[...messages,userMsg]})})
-      const data = await res.json()
-      setMessages(m=>[...m,{role:'assistant', text:data.reply}])
-    }catch(e){ alert('Chat failed') }
-    setLoading(false)
-  }
-
-  return (
-    <div>
-      <div style={{maxHeight:320, overflow:'auto', border:'1px solid rgba(255,255,255,0.04)', padding:12, borderRadius:8}}>
-        {messages.map((m,i)=> <div key={i} style={{marginBottom:10}}><strong>{m.role}:</strong> <div>{m.text}</div></div>)}
-      </div>
-      <div style={{display:'flex', gap:8, marginTop:8}}>
-        <input value={text} onChange={(e)=>setText(e.target.value)} placeholder="Vraag de AI om iets aan te passen..." />
-        <button onClick={send} disabled={loading} className="btn">{loading? '...' : 'Verstuur'}</button>
-      </div>
-    </div>
-  )
-}
