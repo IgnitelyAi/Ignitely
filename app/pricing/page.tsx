@@ -5,183 +5,113 @@ export default function Pricing() {
     <div className="wrapper">
 
       <section className="hero">
-        <h1>Bouw Slimmer. Groei Sneller.</h1>
-        <p>Kies het pakket dat past bij jouw ambitie.</p>
+        <h1>Prijzen — Website Builder & Maatwerk</h1>
+        <p>Transparante prijzen voor zelfstandigen en bedrijven. Kies builder-abonnement of een maatwerk pakket.</p>
       </section>
 
       <section className="pricing">
 
-        {/* FREE */}
-        <div className="card free">
-          <h3>Free</h3>
-          <div className="price">€0</div>
-          <p className="credits">15 Credits</p>
+        {/* BUILDER PLANS */}
+        <div className="column">
+          <h2>Website Builder</h2>
 
-          <ul>
-            <li>✓ 1 simpele landingspagina</li>
-            <li>✓ Basis AI model</li>
-            <li>✓ Standaard snelheid</li>
-            <li className="no">✗ Geen custom domein</li>
-          </ul>
+          <div className="card starter">
+            <h3>Starter</h3>
+            <div className="price">€29<span>/maand</span></div>
+            <ul>
+              <li>✓ 1-3 pagina's</li>
+              <li>✓ Templates & AI content</li>
+              <li>✓ Basis SEO</li>
+              <li>✓ Hosting & SSL</li>
+            </ul>
+            <button className="primary">Start met Starter</button>
+          </div>
 
-          <button>Start Gratis</button>
+          <div className="card pro">
+            <h3>Pro</h3>
+            <div className="price">€79<span>/maand</span></div>
+            <ul>
+              <li>✓ Onbeperkte pagina's</li>
+              <li>✓ Custom domein & e-mail</li>
+              <li>✓ Geavanceerde SEO & analytics</li>
+              <li>✓ Priority support</li>
+            </ul>
+            <button className="probtn">Word Pro</button>
+          </div>
+
+          <div className="card agency">
+            <h3>Agency</h3>
+            <div className="price">€249<span>/maand</span></div>
+            <ul>
+              <li>✓ Meerdere sites</li>
+              <li>✓ White-label opties</li>
+              <li>✓ Team accounts</li>
+              <li>✓ SLA & onboarding</li>
+            </ul>
+            <button className="primary">Vraag Agency</button>
+          </div>
         </div>
 
-        {/* STARTER */}
-        <div className="card starter">
-          <h3>Starter</h3>
-          <div className="price">€29<span>/maand</span></div>
-          <p className="credits">150 Credits</p>
+        {/* CUSTOM PACKAGES */}
+        <div className="column">
+          <h2>Maatwerk Pakketten (door ons geleverd)</h2>
 
-          <ul>
-            <li>✓ Website (max 3 pagina’s)</li>
-            <li>✓ Professioneel design</li>
-            <li>✓ AI revisies</li>
-            <li>✓ Snellere generatie</li>
-            <li className="no">✗ Geen custom domein</li>
-          </ul>
+          <div className="card custom">
+            <h3>Basis Site</h3>
+            <div className="price">€799<span> eenmalig</span></div>
+            <ul>
+              <li>✓ 3-5 pagina's</li>
+              <li>✓ Professioneel design</li>
+              <li>✓ Basis SEO</li>
+              <li>✓ Setup & training</li>
+            </ul>
+            <button className="primary">Bestel Basis</button>
+          </div>
 
-          <button className="primary">Upgrade naar Starter</button>
-        </div>
+          <div className="card custom">
+            <h3>Business Site</h3>
+            <div className="price">€1.899<span> eenmalig</span></div>
+            <ul>
+              <li>✓ 6-15 pagina's</li>
+              <li>✓ Conversie-optimalisatie</li>
+              <li>✓ Integraties (betaal, CRM)</li>
+              <li>✓ 3 maanden support</li>
+            </ul>
+            <button className="probtn">Bestel Business</button>
+          </div>
 
-        {/* PRO */}
-        <div className="card pro">
-          <h3>Pro</h3>
-          <div className="price">€79<span>/maand</span></div>
-          <p className="credits">500 Credits</p>
-
-          <ul>
-            <li>✓ Onbeperkte pagina’s</li>
-            <li>✓ Custom domein</li>
-            <li>✓ Premium templates</li>
-            <li>✓ Prioriteit generatie</li>
-            <li>✓ Dedicated support</li>
-          </ul>
-
-          <button className="probtn">Ga Pro</button>
+          <div className="card custom">
+            <h3>Enterprise</h3>
+            <div className="price">Op maat</div>
+            <ul>
+              <li>✓ Volledig maatwerk</li>
+              <li>✓ Dedicated projectmanager</li>
+              <li>✓ Integraties & training</li>
+              <li>✓ SLA & doorlopende optimalisatie</li>
+            </ul>
+            <button className="primary">Neem contact op</button>
+          </div>
         </div>
 
       </section>
 
       <style jsx>{`
-
-        .wrapper {
-          min-height: 100vh;
-          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          background: radial-gradient(circle at top, #1e1b4b, #0a0a0f 60%);
-          color: white;
-          padding: 100px 20px;
-        }
-
-        .hero {
-          text-align: center;
-          margin-bottom: 80px;
-        }
-
-        .hero h1 {
-          font-size: 48px;
-          font-weight: 800;
-        }
-
-        .hero p {
-          margin-top: 10px;
-          opacity: 0.7;
-        }
-
-        .pricing {
-          display: flex;
-          justify-content: center;
-          gap: 40px;
-          flex-wrap: wrap;
-        }
-
-        .card {
-          width: 320px;
-          padding: 40px;
-          border-radius: 24px;
-          backdrop-filter: blur(15px);
-          background: rgba(255,255,255,0.05);
-          transition: 0.4s ease;
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .card:hover {
-          transform: translateY(-10px) scale(1.02);
-        }
-
-        .card h3 {
-          font-size: 22px;
-          margin-bottom: 10px;
-        }
-
-        .price {
-          font-size: 32px;
-          font-weight: 800;
-        }
-
-        .price span {
-          font-size: 14px;
-          opacity: 0.7;
-        }
-
-        .credits {
-          margin-bottom: 20px;
-          opacity: 0.8;
-        }
-
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 20px 0;
-        }
-
-        li {
-          margin-bottom: 10px;
-          font-size: 14px;
-        }
-
-        .no {
-          opacity: 0.5;
-        }
-
-        button {
-          width: 100%;
-          padding: 12px;
-          border-radius: 12px;
-          border: none;
-          font-weight: 600;
-          cursor: pointer;
-        }
-
-        .primary {
-          background: linear-gradient(90deg,#7c3aed,#2563eb);
-          color: white;
-        }
-
-        .pro {
-          background: linear-gradient(180deg,rgba(124,58,237,0.25),rgba(37,99,235,0.25));
-          border: 1px solid rgba(124,58,237,0.5);
-          box-shadow: 0 0 30px rgba(124,58,237,0.4);
-        }
-
-        .probtn {
-          background: linear-gradient(90deg,#7c3aed,#2563eb);
-          color: white;
-          box-shadow: 0 0 15px rgba(124,58,237,0.8);
-        }
-
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-          100% { transform: translateY(0px); }
-        }
-
-        @media(max-width:900px){
-          .hero h1 {
-            font-size: 34px;
-          }
-        }
-
+        .wrapper { min-height:100vh; padding:90px 20px; background: radial-gradient(circle at top, #0f1120, #06060a 60%); color:white }
+        .hero { text-align:center; margin-bottom:48px }
+        .hero h1 { font-size:40px; font-weight:700 }
+        .pricing { display:flex; gap:40px; justify-content:center; align-items:flex-start; flex-wrap:wrap }
+        .column { width:420px }
+        .column h2 { margin-bottom:18px; font-size:20px; color:rgba(255,255,255,0.9) }
+        .card { background: rgba(255,255,255,0.03); padding:26px; border-radius:16px; margin-bottom:18px; }
+        .card h3 { font-size:18px; margin-bottom:6px }
+        .price { font-weight:800; font-size:22px; margin-bottom:8px }
+        ul { list-style:none; padding:0; margin:8px 0 12px 0 }
+        li { margin-bottom:8px; opacity:0.9 }
+        button { padding:10px 14px; border-radius:12px; border:none; font-weight:700; cursor:pointer }
+        .primary{ background:linear-gradient(90deg,#7c5aed,#16a34a); color:white }
+        .probtn{ background:linear-gradient(90deg,#7c3aed,#2563eb); color:white }
+        .pro{ box-shadow:0 10px 30px rgba(37,99,235,0.12) }
+        @media(max-width:980px){ .pricing{ flex-direction:column; align-items:center } .column{ width:100% } }
       `}</style>
     </div>
   )
