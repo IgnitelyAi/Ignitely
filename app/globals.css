@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent),
+              radial-gradient(900px 400px at 90% 90%, rgba(255,255,255,0.015), transparent),
+              linear-gradient(180deg,#050507 0%, #0b0b0d 100%);
+  color: #e6e6e9;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root{
+  --muted:#9aa0a6;
+  --glass: rgba(255,255,255,0.04);
+  --accent: linear-gradient(90deg,#7c5cff,#3dd1c7);
+}
+
+/* Subtle utilities used in the homepage */
+.lux-hero-gradient{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+}
+
+.glass-card{
+  background: var(--glass);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+@keyframes floatUp {
+  0%{ transform: translateY(8px); opacity: 0; }
+  60%{ transform: translateY(-6px); opacity: .9; }
+  100%{ transform: translateY(0); opacity: 1; }
+}
+
+@keyframes subtlePulse {
+  0%{ transform: scale(1); opacity:.95 }
+  50%{ transform: scale(1.01); opacity:1 }
+  100%{ transform: scale(1); opacity:.95 }
+}
+
+.animate-float { animation: floatUp 700ms cubic-bezier(.16,.84,.24,1) both }
+.animate-pulse-slow { animation: subtlePulse 3.5s ease-in-out infinite }
+
+.logo-subtle{
+  opacity: .9;
+  filter: saturate(.9) contrast(.95);
+}
+
+/* Header watermark and layout tweaks */
+.site-header{
+  position: relative;
+  z-index: 60;
+}
+
+.header-watermark{
+  position: absolute;
+  left: -40px;
+  top: -28px;
+  width: 420px;
+  height: 420px;
+  background-image: url('/logo.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: .04;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+@media (max-width: 640px){
+  .header-watermark{ left: -20px; width: 300px; height:300px; opacity:.03 }
+}
+
+.site-nav a{ color: var(--muted) }
+.site-nav a:hover{ color: #fff }
+
+.header-cta{ box-shadow: 0 6px 24px rgba(0,0,0,0.45) }

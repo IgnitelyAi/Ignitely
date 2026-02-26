@@ -28,38 +28,29 @@ export default function LoginPage() {
     setLoading(false);
 
     if (error) {
-      alert("❌ Ongeldige inloggegevens");
+      alert("Ongeldige inloggegevens");
     } else {
       router.push("/dashboard");
     }
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden text-white">
 
-      {/* LOGO BACKGROUND */}
-      <div
-        className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-10"
-        style={{ backgroundImage: "url('/logo.jpg')" }}
-      />
+      {/* ANIMATED BACKGROUND */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-purple-800 to-black" />
 
-      {/* GLOW EFFECTS */}
-      <div className="absolute w-[700px] h-[700px] bg-blue-600 rounded-full blur-[250px] opacity-30 -top-40 -left-40" />
-      <div className="absolute w-[600px] h-[600px] bg-purple-600 rounded-full blur-[250px] opacity-30 -bottom-40 -right-40" />
+      <div className="absolute w-[600px] h-[600px] bg-blue-500 rounded-full blur-[200px] opacity-30 animate-pulse -top-32 -left-32" />
+      <div className="absolute w-[600px] h-[600px] bg-purple-600 rounded-full blur-[200px] opacity-30 animate-pulse -bottom-32 -right-32" />
 
-      {/* CARD */}
-      <div className="relative z-10 w-full max-w-md p-10 rounded-3xl bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_0_80px_rgba(0,0,255,0.3)]">
-
-        {/* LOGO TOP */}
-        <div className="flex justify-center mb-6">
-          <img src="/logo.jpg" alt="Ignitely" className="w-16 h-16 object-contain" />
-        </div>
+      {/* LOGIN CARD */}
+      <div className="relative z-10 w-full max-w-md p-10 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl">
 
         <h1 className="text-4xl font-bold text-center mb-2">
-          Welkom terug bij <span className="text-blue-400">Ignitely</span>
+          Welkom bij <span className="text-blue-300">Ignitely</span>
         </h1>
 
-        <p className="text-center text-gray-300 mb-8">
+        <p className="text-center text-white/70 mb-8">
           🚀 Log in en lanceer jouw AI-project opnieuw.
         </p>
 
@@ -71,7 +62,7 @@ export default function LoginPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-4 rounded-xl bg-black/40 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full p-4 rounded-xl bg-black/40 border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           />
 
           <input
@@ -80,21 +71,21 @@ export default function LoginPage() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-4 rounded-xl bg-black/40 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+            className="w-full p-4 rounded-xl bg-black/40 border border-white/20 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-purple-400 transition"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-lg hover:scale-105 transition transform"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 font-semibold text-lg hover:scale-105 transition transform"
           >
             {loading ? "Bezig met inloggen..." : "Inloggen"}
           </button>
         </form>
 
-        <div className="text-center mt-6 text-gray-300 text-sm">
+        <div className="text-center mt-6 text-white/70 text-sm">
           Nog geen account?{" "}
-          <a href="/register" className="text-blue-400 hover:underline">
+          <a href="/register" className="text-blue-300 hover:underline">
             Maak er één aan
           </a>
         </div>

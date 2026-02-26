@@ -1,275 +1,220 @@
-"use client"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="wrapper">
+    <main className="min-h-screen text-white relative overflow-x-hidden">
 
-      {/* HEADER */}
-      <header className="header">
-        <div className="container">
+      {/* Header moved to layout.tsx */}
 
-          {/* ECHTE LOGO LINKS */}
-          <div className="logo">
-            <img src="/logo.png" alt="Ignitely logo" />
+      {/* HERO */}
+      <section className="relative h-screen flex items-center">
+        <div className="absolute inset-0 lux-hero-gradient" />
+
+        <div className="container mx-auto px-6 relative z-20">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+
+            {/* Copy */}
+            <div className="md:col-span-7">
+              <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+                  Maak een onweerstaanbare website. Zonder gedoe.
+                </h1>
+
+                <p className="mt-6 text-lg text-gray-300 max-w-2xl">
+                  Een premium website voor jouw merk — strategisch ontworpen om bezoekers te converteren.
+                  Volledige support, snelle laadtijden en maatwerk design. Klaar voor groei.
+                </p>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/register"
+                  className="inline-flex items-center justify-center gap-3 bg-white text-black px-8 py-3 rounded-full text-lg font-medium shadow-lg transform hover:scale-[1.02] transition"
+                >
+                  Probeer gratis
+                </Link>
+
+                <Link
+                  href="/packages"
+                  className="inline-flex items-center justify-center gap-2 border border-gray-600 px-6 py-3 rounded-full text-gray-200 hover:border-white transition"
+                >
+                  Plans & prijzen
+                </Link>
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-4 text-sm text-gray-400">
+                <span className="glass-card px-3 py-2 rounded-full">SLA & Support</span>
+                <span className="glass-card px-3 py-2 rounded-full">Snelle Laadtijden</span>
+                <span className="glass-card px-3 py-2 rounded-full">Conversie-first</span>
+              </div>
+            </div>
+
+            {/* Visual */}
+            <div className="md:col-span-5 flex justify-center md:justify-end">
+                <div className="w-full max-w-md glass-card rounded-2xl p-6 shadow-2xl animate-float">
+                <div className="relative w-full h-[360px] rounded-xl overflow-hidden">
+                  <Image src="/ignitely-bg.png" alt="Visual" fill className="object-cover opacity-95" />
+                </div>
+
+                <div className="mt-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm text-gray-300">Template</div>
+                      <div className="text-lg font-semibold">Luxe Agency</div>
+                    </div>
+                    <div className="text-sm text-gray-400">Live — 3m</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
-
-          {/* NAVIGATIE RECHTS */}
-          <nav className="nav">
-            <Link href="/">Home</Link>
-            <Link href="/pricing">Pakketten</Link>
-            <Link href="/about">Over Ons</Link>
-            <Link href="/login">Inloggen</Link>
-            <Link href="/register" className="cta">Gratis Starten</Link>
-          </nav>
-
-        </div>
-      </header>
-
-      {/* HERO SECTION */}
-      <section className="hero">
-
-        <h1>
-          Bouw de Toekomst met <span>AI Websites</span>
-        </h1>
-
-        <p>
-          Professionele websites in minuten. Slim. Snel. Volledig geautomatiseerd.
-        </p>
-
-        <div className="buttons">
-          <Link href="/pricing" className="primary">
-            Bekijk Pakketten
-          </Link>
-
-          <Link href="/register" className="secondary">
-            Start Gratis
-          </Link>
         </div>
 
+        {/* subtle decorative shapes */}
+        <div className="pointer-events-none absolute -right-20 bottom-10 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-purple-700/20 to-cyan-400/10 blur-3xl animate-pulse-slow" />
       </section>
 
       {/* FEATURES */}
-      <section className="features">
+      <section className="py-24">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-semibold">Alles wat je nodig hebt om te groeien</h2>
+            <p className="mt-4 text-gray-400">Design, performance en conversie — ingebouwd. Wij nemen de techniek uit handen zodat jij klanten wint.</p>
+          </div>
 
-        <div className="feature">
-          <h3>⚡ AI Generatie</h3>
-          <p>Websites gebouwd in minuten met intelligente automatisering.</p>
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="glass-card p-6 rounded-2xl">
+              <h3 className="font-semibold">Conversie geoptimaliseerd</h3>
+              <p className="mt-3 text-gray-400 text-sm">A/B-ready layouts en conversie-elementen die werken.</p>
+            </div>
+
+            <div className="glass-card p-6 rounded-2xl">
+              <h3 className="font-semibold">Schaalbare prestaties</h3>
+              <p className="mt-3 text-gray-400 text-sm">Snelle hosting, CDN en geoptimaliseerde assets.</p>
+            </div>
+
+            <div className="glass-card p-6 rounded-2xl">
+              <h3 className="font-semibold">Hands-off support</h3>
+              <p className="mt-3 text-gray-400 text-sm">Wij beheren updates, security en analytics.</p>
+            </div>
+          </div>
         </div>
-
-        <div className="feature">
-          <h3>🔒 Veilig & Schaalbaar</h3>
-          <p>Snelle infrastructuur, beveiligd en klaar voor groei.</p>
-        </div>
-
-        <div className="feature">
-          <h3>🚀 Klaar voor Groei</h3>
-          <p>Van idee naar professioneel platform zonder technische kennis.</p>
-        </div>
-
       </section>
 
-      <style jsx>{`
+      {/* SHOWCASE / GALLERY */}
+      <section className="py-20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="text-2xl font-semibold">Voorbeelden</h3>
+            <p className="mt-3 text-gray-400">Inspiratie van recente projecten — gericht op conversie en merkbeleving.</p>
+          </div>
 
-        /* ===== BASIS ===== */
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="rounded-2xl overflow-hidden glass-card p-0">
+              <div className="relative h-52">
+                <Image src="/ignitely-bg.png" alt="Project 1" fill className="object-cover" />
+              </div>
+              <div className="p-4">
+                <div className="font-semibold">Studio Showcase</div>
+                <div className="text-sm text-gray-400 mt-1">Moderne branding en conversiegeoptimaliseerde flow.</div>
+              </div>
+            </div>
 
-        .wrapper {
-          min-height: 100vh;
-          background: radial-gradient(circle at top, #1e1b4b, #0a0a0f 60%);
-          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          color: white;
-          overflow-x: hidden;
-          position: relative;
-        }
+            <div className="rounded-2xl overflow-hidden glass-card p-0">
+              <div className="relative h-52">
+                <Image src="/ignitely-bg.png" alt="Project 2" fill className="object-cover" />
+              </div>
+              <div className="p-4">
+                <div className="font-semibold">E-commerce Launch</div>
+                <div className="text-sm text-gray-400 mt-1">Snelle conversies met een strak checkout-proces.</div>
+              </div>
+            </div>
 
-        /* SUBTIELE LOGO ACHTERGROND */
-        .wrapper::before {
-          content: "";
-          position: fixed;
-          inset: 0;
-          background: url('/logo.png') center center no-repeat;
-          background-size: 800px;
-          opacity: 0.05;
-          pointer-events: none;
-          z-index: 0;
-        }
+            <div className="rounded-2xl overflow-hidden glass-card p-0">
+              <div className="relative h-52">
+                <Image src="/ignitely-bg.png" alt="Project 3" fill className="object-cover" />
+              </div>
+              <div className="p-4">
+                <div className="font-semibold">Agency Template</div>
+                <div className="text-sm text-gray-400 mt-1">Klaar-voor-klanten layouts en contentblokken.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        /* ===== HEADER ===== */
+      {/* TESTIMONIALS / SOCIAL PROOF */}
+      <section className="py-20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <h3 className="text-xl text-gray-300">Trusted by ambitious teams</h3>
+            <div className="mt-6 flex items-center justify-center gap-8 flex-wrap">
+              <Image src="/next.svg" alt="Next" width={84} height={28} />
+              <Image src="/vercel.svg" alt="Vercel" width={84} height={28} />
+              <Image src="/globe.svg" alt="Globe" width={84} height={28} />
+            </div>
 
-        .header {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          background: rgba(10,10,15,0.85);
-          backdrop-filter: blur(12px);
-          z-index: 1000;
-        }
+            <blockquote className="mt-10 glass-card p-8 rounded-2xl text-left">
+              <p className="text-lg text-gray-100">"Ignitely transformed our website into a conversion machine. The team delivered a beautiful site in days — our leads doubled within weeks."</p>
+              <div className="mt-4 flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-sm">JS</div>
+                <div>
+                  <div className="font-semibold">Johan S.</div>
+                  <div className="text-sm text-gray-400">Founder, Studio Aurora</div>
+                </div>
+              </div>
+            </blockquote>
+          
+            {/* PRICING / PLANS */}
+            <div className="mt-12 grid md:grid-cols-3 gap-6">
+              <div className="glass-card p-6 rounded-2xl text-center">
+                <div className="text-sm text-gray-400">Starter</div>
+                <div className="mt-2 text-2xl font-bold">€29</div>
+                <div className="mt-3 text-gray-400 text-sm">Perfect voor freelancers</div>
+                <div className="mt-6">
+                  <Link href="/register" className="bg-white text-black px-4 py-2 rounded-full">Kies Starter</Link>
+                </div>
+              </div>
 
-        .container {
-          max-width: 1300px;
-          margin: 0 auto;
-          padding: 20px 40px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
+              <div className="glass-card p-6 rounded-2xl text-center border-2 border-white/6">
+                <div className="text-sm text-gray-400">Growth</div>
+                <div className="mt-2 text-2xl font-bold">€99</div>
+                <div className="mt-3 text-gray-400 text-sm">Voor groeiende bedrijven</div>
+                <div className="mt-6">
+                  <Link href="/register" className="bg-white text-black px-4 py-2 rounded-full">Kies Growth</Link>
+                </div>
+              </div>
 
-        .logo img {
-          height: 42px;
-          display: block;
-        }
+              <div className="glass-card p-6 rounded-2xl text-center">
+                <div className="text-sm text-gray-400">Enterprise</div>
+                <div className="mt-2 text-2xl font-bold">Op maat</div>
+                <div className="mt-3 text-gray-400 text-sm">Maatwerk en support</div>
+                <div className="mt-6">
+                  <Link href="/contact" className="border border-gray-600 px-4 py-2 rounded-full text-gray-200">Contacteer ons</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        .nav {
-          display: flex;
-          gap: 28px;
-          align-items: center;
-          flex-wrap: nowrap;
-        }
+      {/* FINAL CTA */}
+      <section className="py-20">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold">Klaar om je conversie te verhogen?</h2>
+          <p className="mt-4 text-gray-400 max-w-2xl mx-auto">Start je gratis proef of plan een demo met een specialist — geen verplichtingen, alleen groei.</p>
 
-        .nav a {
-          text-decoration: none;
-          color: white;
-          font-size: 14px;
-          white-space: nowrap;
-          opacity: 0.85;
-          transition: 0.3s;
-        }
+          <div className="mt-8 flex justify-center gap-4">
+            <Link href="/register" className="bg-white text-black px-8 py-3 rounded-full font-medium">Begin gratis</Link>
+            <Link href="/contact" className="border border-gray-600 px-6 py-3 rounded-full text-gray-200">Plan demo</Link>
+          </div>
+        </div>
+      </section>
 
-        .nav a:hover {
-          opacity: 1;
-        }
+      <footer className="py-12 text-center text-gray-500 text-sm">
+        © {new Date().getFullYear()} Ignitely — Built for creators & agencies
+      </footer>
 
-        .cta {
-          padding: 10px 22px;
-          border-radius: 14px;
-          background: linear-gradient(90deg,#7c3aed,#2563eb);
-          font-weight: 600;
-        }
-
-        /* ===== HERO ===== */
-
-        .hero {
-          padding-top: 200px;
-          text-align: center;
-          position: relative;
-          z-index: 2;
-          padding-left: 20px;
-          padding-right: 20px;
-        }
-
-        .hero h1 {
-          font-size: 64px;
-          font-weight: 900;
-          line-height: 1.1;
-        }
-
-        .hero span {
-          background: linear-gradient(90deg,#7c3aed,#2563eb);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-          margin-top: 20px;
-          font-size: 18px;
-          opacity: 0.8;
-        }
-
-        .buttons {
-          margin-top: 40px;
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          flex-wrap: wrap;
-        }
-
-        .primary {
-          padding: 14px 36px;
-          border-radius: 14px;
-          background: linear-gradient(90deg,#7c3aed,#2563eb);
-          text-decoration: none;
-          color: white;
-          font-weight: 700;
-          transition: 0.3s;
-        }
-
-        .primary:hover {
-          transform: translateY(-3px);
-        }
-
-        .secondary {
-          padding: 14px 36px;
-          border-radius: 14px;
-          background: white;
-          color: black;
-          text-decoration: none;
-          font-weight: 700;
-          transition: 0.3s;
-        }
-
-        .secondary:hover {
-          transform: translateY(-3px);
-        }
-
-        /* ===== FEATURES ===== */
-
-        .features {
-          margin-top: 140px;
-          display: flex;
-          justify-content: center;
-          gap: 40px;
-          padding: 0 40px 120px;
-          flex-wrap: wrap;
-          position: relative;
-          z-index: 2;
-        }
-
-        .feature {
-          width: 300px;
-          padding: 30px;
-          border-radius: 20px;
-          background: rgba(255,255,255,0.05);
-          backdrop-filter: blur(10px);
-          transition: 0.3s;
-        }
-
-        .feature:hover {
-          transform: translateY(-6px);
-        }
-
-        .feature h3 {
-          margin-bottom: 12px;
-          font-size: 18px;
-        }
-
-        .feature p {
-          font-size: 14px;
-          opacity: 0.8;
-        }
-
-        /* ===== RESPONSIVE ===== */
-
-        @media(max-width: 900px) {
-
-          .container {
-            padding: 15px 20px;
-          }
-
-          .nav {
-            gap: 15px;
-          }
-
-          .hero h1 {
-            font-size: 38px;
-          }
-
-          .features {
-            margin-top: 80px;
-          }
-        }
-
-      `}</style>
-    </div>
-  )
+    </main>
+  );
 }
