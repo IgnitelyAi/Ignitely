@@ -10,6 +10,7 @@ const supabase = createClient(
 export default function Register() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [selectedPkg, setSelectedPkg] = useState('starter')
 
   async function handleSubmit(e: any) {
     e.preventDefault()
@@ -17,11 +18,14 @@ export default function Register() {
 
     const form = new FormData(e.target)
 
+    const base = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
+    const redirectTo = base.startsWith('http') ? `${base}/login` : `https://${base}/login`
+
     const { error } = await supabase.auth.signUp({
       email: form.get("email") as string,
       password: form.get("password") as string,
       options: {
-        emailRedirectTo: "http://localhost:3000/login"
+        emailRedirectTo: redirectTo
       }
     })
 
@@ -43,18 +47,18 @@ export default function Register() {
 
           <div className="packages" style={{marginTop:20}}>
             <label className="pkg">
-              <input type="radio" name="pkg" value="starter" defaultChecked /> Starter — €29/mnd
+              <input type="radio" name="pkg" value="starter" checked={selectedPkg==='starter'} onChange={()=>setSelectedPkg('starter')} /> Starter — €29/mnd
             </label>
             <label className="pkg">
-              <input type="radio" name="pkg" value="pro" /> Pro — €79/mnd
+              <input type="radio" name="pkg" value="pro" checked={selectedPkg==='pro'} onChange={()=>setSelectedPkg('pro')} /> Pro — €79/mnd
             </label>
             <label className="pkg">
-              <input type="radio" name="pkg" value="enterprise" /> Enterprise — Op maat
+              <input type="radio" name="pkg" value="enterprise" checked={selectedPkg==='enterprise'} onChange={()=>setSelectedPkg('enterprise')} /> Enterprise — Op maat
             </label>
           </div>
 
           <div style={{marginTop:18}}>
-            <a href="/builder?pkg=starter" className="startBtn">Start AI Builder</a>
+            <a href={`/builder?pkg=${selectedPkg}`} className="startBtn">Start AI Builder</a>
           </div>
         </div>
 
