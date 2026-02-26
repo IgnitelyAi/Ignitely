@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 
-export default function BuilderPage(){
+export default function ClientBuilder(){
   const router = useRouter()
   const [pkg, setPkg] = useState('starter')
 
@@ -17,11 +17,10 @@ export default function BuilderPage(){
   const [step, setStep] = useState(0)
   const [form, setForm] = useState<any>({
     siteName:'', company:'', goals:'', theme:'Modern', colors:'', logoFile:null
-  "use client"
   })
   const [loading, setLoading] = useState(false)
   const [previewHtml, setPreviewHtml] = useState<string | null>(null)
-  export default function Page() {
+
   function update(key:any, val:any){ setForm((s:any)=>({...s,[key]:val})) }
 
   async function handleGenerate(e:any){
