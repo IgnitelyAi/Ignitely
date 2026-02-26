@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@300;400;600;700&display=swap');
+
 html, body {
   padding: 0;
   margin: 0;
@@ -21,6 +23,50 @@ body {
   --glass: rgba(255,255,255,0.04);
   --accent: linear-gradient(90deg,#7c5cff,#3dd1c7);
 }
+
+/* Typography to mimic premium publishing look */
+body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial }
+.serif { font-family: 'Playfair Display', Georgia, serif }
+
+/* Hero specific */
+.hero-title{
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.hero-sub{ font-size: 1.125rem; color: rgba(230,230,233,0.85); line-height:1.6 }
+
+@keyframes revealUp {
+  from{ opacity: 0; transform: translateY(10px) }
+  to{ opacity: 1; transform: translateY(0) }
+}
+.reveal { animation: revealUp .7s cubic-bezier(.16,.84,.24,1) both }
+
+/* Buttons refined for premium feel */
+.btn-outline{
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: .6rem 1.1rem;
+  border-radius: 9999px;
+  color: #e6e6e9;
+}
+.btn-filled{
+  padding: .6rem 1.25rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg,#111827,#1f2937);
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+}
+
+/* subtle underline animation for hero */
+.underline-anim{ position: relative }
+.underline-anim:after{
+  content: '';
+  position: absolute; left:0; bottom:-6px; height:3px; width:0%;
+  background: linear-gradient(90deg,#7c5cff,#3dd1c7);
+  transition: width .5s cubic-bezier(.2,.8,.2,1);
+}
+.underline-anim:hover:after{ width:100% }
+
 
 /* Subtle utilities used in the homepage */
 .lux-hero-gradient{
@@ -74,8 +120,24 @@ body {
   transform: translateZ(0);
 }
 
+/* Ensure the visible logo sits above the watermark and stays in the corner */
+.logo-corner{
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* Add left padding to header content so it doesn't overlap the corner logo */
+.site-header > .mx-auto { padding-left: 84px }
+
 @media (max-width: 640px){
   .header-watermark{ left: -20px; width: 300px; height:300px; opacity:.03 }
+  .logo-corner{ left: 10px; top: 6px }
+  .site-header > .mx-auto { padding-left: 64px }
 }
 
 .site-nav a{ color: var(--muted) }

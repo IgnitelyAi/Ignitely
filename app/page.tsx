@@ -7,71 +7,40 @@ export default function Home() {
 
       {/* Header moved to layout.tsx */}
 
-      {/* HERO */}
-      <section className="relative h-screen flex items-center">
+      {/* HERO — Squarespace-inspired centered hero */}
+      <section className="relative min-h-screen flex items-center justify-center text-center px-6 overflow-hidden">
         <div className="absolute inset-0 lux-hero-gradient" />
 
-        <div className="container mx-auto px-6 relative z-20">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+        <div className="relative z-20 max-w-4xl">
+          <h1 className="hero-title text-5xl md:text-7xl text-white leading-tight serif reveal">
+            Bouw een merkwaardige website
+          </h1>
 
-            {/* Copy */}
-            <div className="md:col-span-7">
-              <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
-                  Maak een onweerstaanbare website. Zonder gedoe.
-                </h1>
+          <p className="hero-sub mt-6 reveal">
+            Een elegante, conversiegerichte website — strategisch ontworpen en snel live. Alles verzorgd, van design tot groei.
+          </p>
 
-                <p className="mt-6 text-lg text-gray-300 max-w-2xl">
-                  Een premium website voor jouw merk — strategisch ontworpen om bezoekers te converteren.
-                  Volledige support, snelle laadtijden en maatwerk design. Klaar voor groei.
-                </p>
+          <div className="mt-10 flex items-center justify-center gap-4 reveal">
+            <Link href="/register" className="btn-filled text-base">
+              Begin gratis
+            </Link>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/register"
-                  className="inline-flex items-center justify-center gap-3 bg-white text-black px-8 py-3 rounded-full text-lg font-medium shadow-lg transform hover:scale-[1.02] transition"
-                >
-                  Probeer gratis
-                </Link>
+            <Link href="/packages" className="btn-outline text-base">
+              Bekijk pakketten
+            </Link>
+          </div>
 
-                <Link
-                  href="/packages"
-                  className="inline-flex items-center justify-center gap-2 border border-gray-600 px-6 py-3 rounded-full text-gray-200 hover:border-white transition"
-                >
-                  Plans & prijzen
-                </Link>
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-4 text-sm text-gray-400">
-                <span className="glass-card px-3 py-2 rounded-full">SLA & Support</span>
-                <span className="glass-card px-3 py-2 rounded-full">Snelle Laadtijden</span>
-                <span className="glass-card px-3 py-2 rounded-full">Conversie-first</span>
-              </div>
-            </div>
-
-            {/* Visual */}
-            <div className="md:col-span-5 flex justify-center md:justify-end">
-                <div className="w-full max-w-md glass-card rounded-2xl p-6 shadow-2xl animate-float">
-                <div className="relative w-full h-[360px] rounded-xl overflow-hidden">
-                  <Image src="/ignitely-bg.png" alt="Visual" fill className="object-cover opacity-95" />
-                </div>
-
-                <div className="mt-5">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-sm text-gray-300">Template</div>
-                      <div className="text-lg font-semibold">Luxe Agency</div>
-                    </div>
-                    <div className="text-sm text-gray-400">Live — 3m</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          <div className="mt-12 flex items-center justify-center gap-6 text-sm text-gray-400 reveal">
+            <div className="underline-anim">Professioneel design</div>
+            <div className="underline-anim">Snelle hosting</div>
+            <div className="underline-anim">Conversie-first</div>
           </div>
         </div>
 
-        {/* subtle decorative shapes */}
-        <div className="pointer-events-none absolute -right-20 bottom-10 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-purple-700/20 to-cyan-400/10 blur-3xl animate-pulse-slow" />
+        {/* subtle right visual shard */}
+        <div className="pointer-events-none absolute right-6 top-16 w-[360px] h-[360px] rounded-xl overflow-hidden glass-card shadow-2xl hidden md:block">
+          <Image src="/ignitely-bg.png" alt="Visual" fill className="object-cover opacity-95" />
+        </div>
       </section>
 
       {/* FEATURES */}
