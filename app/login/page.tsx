@@ -29,7 +29,8 @@ export default function LoginPage() {
     if (error) {
       alert(error.message)
     } else {
-      router.push("/dashboard")
+      // After successful login, redirect directly to the AI Builder
+      router.push("/builder")
     }
   }
 
